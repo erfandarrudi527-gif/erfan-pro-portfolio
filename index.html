@@ -24,7 +24,10 @@
   
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onmousemove="document.querySelectorAll('.project-card').forEach(c => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (event.clientX - r.left) + 'px'); c.style.setProperty('--my', (event.clientY - r.top) + 'px'); })">
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scrollProgress"></div>
 
   <!-- Ambient Dynamic Starfield Background -->
   <canvas id="bgCanvas"></canvas>
@@ -82,7 +85,7 @@
   <main class="container">
     
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section reveal-item">
       <div class="hero-meta">
         <span class="badge-version mono">PRODUCTION SUITE // 2026</span>
         <span class="mono" style="font-size: 12px; color: var(--emerald);">
@@ -138,7 +141,7 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" style="padding-top: 30px;">
+    <section id="projects" class="reveal-item" style="padding-top: 30px;">
       <div class="section-header">
         <span class="section-tag mono">// SHOWCASE</span>
         <h2 class="section-title">Verified Production Projects</h2>
@@ -167,7 +170,7 @@
     </section>
 
     <!-- NEW KILLER FEATURE: Interactive Component Sandbox / Playground -->
-    <section id="sandbox" style="padding-top: 40px;">
+    <section id="sandbox" class="reveal-item" style="padding-top: 40px;">
       <div class="section-header">
         <span class="section-tag mono" style="color: var(--cyan);">// INTERACTIVE STUDIO</span>
         <h2 class="section-title">Live CSS & Component Sandbox</h2>
@@ -232,7 +235,7 @@
     </section>
 
     <!-- DUN Brew Lab Interactive Section -->
-    <section id="brew-lab-section" style="padding-top: 40px;">
+    <section id="brew-lab-section" class="reveal-item" style="padding-top: 40px;">
       <div class="section-header">
         <span class="section-tag mono" style="color: #d97706;">// INTERACTIVE LAB</span>
         <h2 class="section-title">DUN Specialty Coffee & Extraction Lab</h2>
@@ -312,7 +315,7 @@
     </section>
 
     <!-- Interactive Terminal Section -->
-    <section id="terminal" style="padding-top: 40px;">
+    <section id="terminal" class="reveal-item" style="padding-top: 40px;">
       <div class="section-header">
         <span class="section-tag mono">// SHELL INTERFACE</span>
         <h2 class="section-title">Developer Console & Command Center</h2>
@@ -354,7 +357,7 @@
     </section>
 
     <!-- Skills Matrix Section -->
-    <section style="padding: 40px 0 80px;">
+    <section class="reveal-item" style="padding: 40px 0 80px;">
       <div class="section-header">
         <span class="section-tag mono">// COMPETENCY</span>
         <h2 class="section-title">Canonical Frontend Pillars</h2>

@@ -1,7 +1,9 @@
-// Erfan Portfolio Core Application Logic (v4.2 Production)
+// Erfan Portfolio Core Application Logic (v4.5 Luxury High-Motion Edition)
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
+  initScrollProgressBar();
   initCanvasBackground();
+  initContinuousScrollReveal();
   renderProjects('all');
   initFilterTabs();
   initSearch();
@@ -13,7 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactModal();
 });
 
-// 1. Live UTC & System Status
+// 1. Scroll Progress Bar
+function initScrollProgressBar() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+    bar.style.width = `${progress}%`;
+  }, { passive: true });
+}
+
+// 2. Live UTC Clock
 function initLiveClock() {
   const clockEl = document.getElementById('liveClock');
   if (!clockEl) return;
@@ -26,7 +39,22 @@ function initLiveClock() {
   setInterval(update, 1000);
 }
 
-// 2. Subtle Starfield / Particle Background (Zero-lag Canvas 2D)
+// 3. Continuous Bi-Directional Scroll Reveal
+function initContinuousScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      } else {
+        entry.target.classList.remove('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
+}
+
+// 4. Subtle Starfield / Particle Background (Zero-lag Canvas 2D)
 function initCanvasBackground() {
   const canvas = document.getElementById('bgCanvas');
   if (!canvas) return;
@@ -35,29 +63,22 @@ function initCanvasBackground() {
   let height = canvas.height = window.innerHeight;
 
   const particles = [];
-  const count = Math.min(width > 768 ? 60 : 30, 80);
+  const count = Math.min(width > 768 ? 65 : 30, 85);
 
   for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.5 + 0.5,
-      alpha: Math.random() * 0.5 + 0.2
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.5 + 0.6,
+      alpha: Math.random() * 0.55 + 0.25
     });
   }
 
-  function resize() {
+  window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-
-  let mouseX = -1000, mouseY = -1000;
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
   });
 
   function draw() {
@@ -73,23 +94,21 @@ function initCanvasBackground() {
       if (p.y < 0) p.y = height;
       if (p.y > height) p.y = 0;
 
-      // Draw particle
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(165, 180, 252, ${p.alpha})`;
       ctx.fill();
 
-      // Connect close neighbors
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
         const dx = p.x - p2.x;
         const dy = p.y - p2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 110) {
+        if (dist < 115) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 110)})`;
+          ctx.strokeStyle = `rgba(99, 102, 241, ${0.16 * (1 - dist / 115)})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }
@@ -100,7 +119,28 @@ function initCanvasBackground() {
   draw();
 }
 
-// 3. Audio Synthesizer Toggle
+// 5. 3D Tilt Card Interaction
+function handleCardTilt(e, card) {
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  
+  const midX = rect.width / 2;
+  const midY = rect.height / 2;
+  
+  const rotateX = ((y - midY) / midY) * -7;
+  const rotateY = ((x - midX) / midX) * 7;
+  
+  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+  card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+  card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+}
+
+function handleCardReset(card) {
+  card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+}
+
+// 6. Audio Synthesizer Toggle
 function initSoundToggle() {
   const btn = document.getElementById('soundToggleBtn');
   if (!btn) return;
@@ -113,7 +153,7 @@ function initSoundToggle() {
   });
 }
 
-// 4. Render Projects
+// 7. Render Projects with 3D Tilt & Micro-Metrics
 function renderProjects(category = 'all', searchQuery = '') {
   const grid = document.getElementById('projectsGrid');
   if (!grid) return;
@@ -142,7 +182,11 @@ function renderProjects(category = 'all', searchQuery = '') {
   }
 
   grid.innerHTML = filtered.map(p => `
-    <article class="project-card" style="--card-accent: ${p.color};" onmouseenter="if(window.Sound)Sound.playHover()">
+    <article class="project-card reveal-item" 
+             style="--card-accent: ${p.color};"
+             onmousemove="handleCardTilt(event, this)" 
+             onmouseleave="handleCardReset(this)"
+             onmouseenter="if(window.Sound)Sound.playHover()">
       <div>
         <div class="card-top">
           <span class="card-badge mono" style="color: ${p.color}; border-color: ${p.color}44;">${p.badge}</span>
@@ -174,9 +218,12 @@ function renderProjects(category = 'all', searchQuery = '') {
       </div>
     </article>
   `).join('');
+
+  // re-observe newly created project elements
+  initContinuousScrollReveal();
 }
 
-// 5. Filter & Search
+// 8. Filter & Search
 function initFilterTabs() {
   const pills = document.querySelectorAll('.filter-pill');
   pills.forEach(pill => {
@@ -201,7 +248,7 @@ function initSearch() {
   });
 }
 
-// 6. Interactive Component Sandbox
+// 9. Interactive Component Sandbox
 function initComponentSandbox() {
   const presetSelect = document.getElementById('sandboxPreset');
   const glowSlider = document.getElementById('sandboxGlow');
@@ -214,20 +261,20 @@ function initComponentSandbox() {
 
   function update() {
     const preset = presetSelect.value;
-    const glow = glowSlider ? glowSlider.value : 20;
-    const blur = blurSlider ? blurSlider.value : 12;
-    const radius = radiusSlider ? radiusSlider.value : 10;
+    const glow = glowSlider ? glowSlider.value : 25;
+    const blur = blurSlider ? blurSlider.value : 14;
+    const radius = radiusSlider ? radiusSlider.value : 12;
 
     let cssText = '';
     if (preset === 'button') {
-      previewTarget.innerHTML = `<button style="background: linear-gradient(135deg, #6366f1, #3b82f6); color: #fff; padding: 12px 28px; border-radius: ${radius}px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.6); font-family: var(--font-sans); font-weight: 700; cursor: pointer; backdrop-filter: blur(${blur}px);">Interactive CTA ↗</button>`;
-      cssText = `button {\n  background: linear-gradient(135deg, #6366f1, #3b82f6);\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.6);\n  backdrop-filter: blur(${blur}px);\n}`;
+      previewTarget.innerHTML = `<button style="background: linear-gradient(135deg, #6366f1, #3b82f6); color: #fff; padding: 12px 28px; border-radius: ${radius}px; border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.7); font-family: var(--font-sans); font-weight: 700; cursor: pointer; backdrop-filter: blur(${blur}px); transition: transform 0.2s;" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">Interactive CTA ↗</button>`;
+      cssText = `button {\n  background: linear-gradient(135deg, #6366f1, #3b82f6);\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.7);\n  backdrop-filter: blur(${blur}px);\n  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);\n}`;
     } else if (preset === 'glass') {
-      previewTarget.innerHTML = `<div style="background: rgba(14, 20, 34, 0.65); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: ${radius}px; padding: 20px 28px; box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.25); backdrop-filter: blur(${blur}px); text-align: center;"><div class="mono" style="font-size: 11px; color: #38bdf8;">OLED GLASSMETRIC</div><div style="font-weight: 800; font-size: 16px; margin-top: 4px;">Dynamic Glass UI</div></div>`;
-      cssText = `.glass-card {\n  background: rgba(14, 20, 34, 0.65);\n  border: 1px solid rgba(99, 102, 241, 0.4);\n  border-radius: ${radius}px;\n  backdrop-filter: blur(${blur}px);\n  box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.25);\n}`;
+      previewTarget.innerHTML = `<div style="background: rgba(14, 20, 34, 0.65); border: 1px solid rgba(99, 102, 241, 0.45); border-radius: ${radius}px; padding: 22px 30px; box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.3); backdrop-filter: blur(${blur}px); text-align: center;"><div class="mono" style="font-size: 11px; color: #38bdf8;">OLED GLASSMETRIC</div><div style="font-weight: 800; font-size: 16px; margin-top: 4px;">Dynamic Glass UI</div></div>`;
+      cssText = `.glass-card {\n  background: rgba(14, 20, 34, 0.65);\n  border: 1px solid rgba(99, 102, 241, 0.45);\n  border-radius: ${radius}px;\n  backdrop-filter: blur(${blur}px);\n  box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.3);\n}`;
     } else if (preset === 'badge') {
-      previewTarget.innerHTML = `<span style="background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px 18px; border-radius: ${radius}px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.4);">● SYSTEM HEALTH: 100%</span>`;
-      cssText = `.live-badge {\n  background: rgba(16, 185, 129, 0.12);\n  color: #34d399;\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.4);\n}`;
+      previewTarget.innerHTML = `<span style="background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.45); padding: 8px 18px; border-radius: ${radius}px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.45);">● SYSTEM HEALTH: 100%</span>`;
+      cssText = `.live-badge {\n  background: rgba(16, 185, 129, 0.12);\n  color: #34d399;\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.45);\n}`;
     }
     codeOutput.textContent = cssText;
   }
@@ -239,7 +286,7 @@ function initComponentSandbox() {
   update();
 }
 
-// 7. DUN Brew Lab Engine & Live Pour Simulation
+// 10. DUN Brew Lab Engine & Live Pour Simulation
 let pourTimerInterval = null;
 function initBrewLab() {
   const doseSlider = document.getElementById('brewDose');
@@ -323,7 +370,7 @@ function initBrewLab() {
   calculate();
 }
 
-// 8. Command Palette (Cmd+K / Ctrl+K Spotlight)
+// 11. Command Palette (Cmd+K / Ctrl+K Spotlight)
 function initCommandPalette() {
   const overlay = document.getElementById('cmdPalette');
   const input = document.getElementById('cmdInput');
@@ -381,6 +428,9 @@ function runCmd(action) {
     case 'projects':
       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
       break;
+    case 'sandbox':
+      document.getElementById('sandbox')?.scrollIntoView({ behavior: 'smooth' });
+      break;
     case 'brew':
       document.getElementById('brew-lab-section')?.scrollIntoView({ behavior: 'smooth' });
       break;
@@ -409,7 +459,7 @@ function runCmd(action) {
   }
 }
 
-// 9. Interactive Terminal
+// 12. Interactive Terminal
 function initTerminal() {
   const input = document.getElementById('termInput');
   const output = document.getElementById('termOutput');
@@ -462,6 +512,7 @@ function executeCommand(cmd, print) {
   projects   - Output full repository directory
   skills     - Output frontend competency tree
   brew       - Jump to DUN Specialty Coffee Lab
+  sandbox    - Jump to Live Token Sandbox
   resume     - View curriculum vitae summary
   matrix     - Toggle visual matrix rain
   contact    - Open contact dialog
@@ -492,10 +543,14 @@ function executeCommand(cmd, print) {
       break;
     case 'matrix':
       if (window.Sound) Sound.playSuccess();
-      print(`<span style="color: #10b981;">01000101 01010010 01000110 01000001 01001110 00100000 01001111 01010011</span><br><span style="color: #34d399;">[CONNECTED TO MAINFRAME] Systems nominal.</span>`, true);
+      print(`<span style="color: #10b981;">01000101 01010010 01000110 01000001 01001110 00100000 01001111 01010011</span><br><span style="color: #34d399;">[CONNECTED TO MAINFRAME] Systems nominal. Matrix Rain Active.</span>`, true);
       break;
     case 'whoami':
       print(`visitor@guest-session (authenticated via browser WebAPI)`);
+      break;
+    case 'sandbox':
+      document.getElementById('sandbox')?.scrollIntoView({ behavior: 'smooth' });
+      print(`Jumping to Component Sandbox...`);
       break;
     case 'brew':
       document.getElementById('brew-lab-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -513,7 +568,7 @@ function executeCommand(cmd, print) {
   }
 }
 
-// 10. Project Modal
+// 13. Project Modal
 function openProjectModal(id) {
   const p = PROJECTS_DATA.find(x => x.id === id);
   if (!p) return;
@@ -566,7 +621,7 @@ function closeProjectModal() {
   if (window.Sound) Sound.playClick();
 }
 
-// 11. Contact Modal
+// 14. Contact Modal
 function initContactModal() {
   const overlay = document.getElementById('contactModalOverlay');
   const btn = document.getElementById('openContactBtn');
@@ -585,7 +640,7 @@ function closeContactModal() {
   if (window.Sound) Sound.playClick();
 }
 
-// 12. Utilities
+// 15. Utilities
 function copyText(text, label = 'Copied to clipboard') {
   navigator.clipboard.writeText(text).then(() => {
     if (window.Sound) Sound.playSuccess();
