@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>ERFAN.OS Terminal — Fullscreen Developer Command Center</title>
+  <title>ERFAN.OS Terminal — Fullscreen Developer Shell & Matrix Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,10 +20,37 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin: 20px auto;
-      max-width: 1100px;
+      margin: 15px auto;
+      max-width: 1200px;
       width: 100%;
-      height: calc(100vh - 120px);
+      height: calc(100vh - 105px);
+      position: relative;
+    }
+    #matrixCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.18;
+      display: none;
+    }
+    .term-quick-btn {
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .term-quick-btn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      color: #ffffff;
+      border-color: var(--accent);
     }
   </style>
 </head>
@@ -32,53 +59,66 @@
   <!-- Top bar -->
   <header class="navbar">
     <div class="container nav-wrapper">
-      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
+      <a href="index.html" class="brand-badge" onmouseenter="if(window.Sound)Sound.playHover()">
         <div class="brand-icon">E</div>
         <div>
-          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">ERFAN.OS</div>
-          <div class="mono" style="font-size: 11px; color: var(--text-dim);">SHELL v3.8</div>
+          <div style="font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em;">ERFAN.OS</div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">SHELL v4.5 LTS</div>
         </div>
       </a>
 
-      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
-        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Home</a>
-        <a href="projects.html" style="color: var(--text-muted); text-decoration: none;">Projects</a>
-        <a href="brew-lab.html" style="color: var(--text-muted); text-decoration: none;">DUN Brew Lab</a>
-        <a href="resume.html" style="color: var(--text-muted); text-decoration: none;">Resume</a>
-      </div>
+      <nav class="nav-links mono">
+        <a href="index.html" class="nav-link">&larr; Return Home</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="brew-lab.html" class="nav-link">DUN Brew Lab</a>
+        <a href="resume.html" class="nav-link">Resume</a>
+      </nav>
 
       <div class="status-pill mono">
         <span class="status-dot"></span>
-        <span>TTY1 ACTIVE</span>
+        <span>TTY1 ACTIVE [127.0.0.1]</span>
       </div>
     </div>
   </header>
 
   <!-- Fullscreen Terminal Container -->
   <main class="container fullscreen-term">
-    <div class="terminal-card" style="height: 100%; display: flex; flex-direction: column; margin-bottom: 0;">
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="terminal-card" style="height: 100%; display: flex; flex-direction: column; margin-bottom: 0; position: relative; z-index: 2;">
       <div class="terminal-header">
-        <div class="terminal-dots">
-          <span class="tdot tdot-red"></span>
-          <span class="tdot tdot-yellow"></span>
-          <span class="tdot tdot-green"></span>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div class="terminal-dots">
+            <span class="tdot tdot-red"></span>
+            <span class="tdot tdot-yellow"></span>
+            <span class="tdot tdot-green"></span>
+          </div>
+          <div class="mono" style="font-size: 12px; color: var(--text-dim);">erfan@devbox:~ (zsh) — 120x36</div>
         </div>
-        <div class="mono" style="font-size: 12px; color: var(--text-dim);">erfan@devbox:~ (zsh) — 80x24</div>
-        <div class="mono" style="font-size: 11px; color: var(--emerald);">CONNECTED [127.0.0.1]</div>
+
+        <!-- Quick Terminal Action Pills -->
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="term-quick-btn" onclick="injectTerm('help');">help</button>
+          <button class="term-quick-btn" onclick="injectTerm('projects');">projects</button>
+          <button class="term-quick-btn" onclick="injectTerm('skills');">skills</button>
+          <button class="term-quick-btn" onclick="injectTerm('matrix');">matrix</button>
+          <button class="term-quick-btn" onclick="injectTerm('clear');">clear</button>
+          <span class="mono" style="font-size: 11px; color: var(--emerald); margin-left: 8px;">● 0ms LATENCY</span>
+        </div>
       </div>
 
       <div class="terminal-body" id="termOutput" style="flex: 1; max-height: none;">
         <div class="term-line" style="color: #6366f1;">
-          ╔══════════════════════════════════════════════════════════════════════════════╗<br>
-          ║  ERFAN MEHDI SADEGHI — INTERACTIVE DEVELOPER OS (v3.8 LTS)                   ║<br>
-          ║  Type 'help' to view all commands. Tab completion and history enabled.       ║<br>
-          ╚══════════════════════════════════════════════════════════════════════════════╝
+          ╔══════════════════════════════════════════════════════════════════════════════════════════════╗<br>
+          ║  ERFAN MEHDI SADEGHI — INTERACTIVE DEVELOPER OS (v4.5 PRO LTS)                               ║<br>
+          ║  Type 'help' to view all commands. Tab completion and command history enabled.               ║<br>
+          ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
         </div>
         <div class="term-line" style="color: var(--text-muted);">
-          System load: 0.12, 0.08, 0.02 | Memory: 16GB OK | Vercel Edge: ACTIVE
+          Kernel: Linux 6.8.0-erfan-x86_64 | Vercel Edge Serverless: READY | Audio Synthesis: ACTIVE
         </div>
         <div class="term-line" style="color: var(--text-dim); margin-top: 8px;">
-          Quick shortcuts: <span style="color: #38bdf8;">'projects'</span>, <span style="color: #38bdf8;">'skills'</span>, <span style="color: #38bdf8;">'contact'</span>, <span style="color: #38bdf8;">'brew'</span>, <span style="color: #38bdf8;">'matrix'</span>, <span style="color: #38bdf8;">'clear'</span>
+          Available commands: <span style="color: #38bdf8;">'projects'</span>, <span style="color: #38bdf8;">'skills'</span>, <span style="color: #38bdf8;">'matrix'</span>, <span style="color: #38bdf8;">'resume'</span>, <span style="color: #38bdf8;">'brew'</span>, <span style="color: #38bdf8;">'contact'</span>, <span style="color: #38bdf8;">'whoami'</span>, <span style="color: #38bdf8;">'clear'</span>
         </div>
       </div>
 
@@ -94,5 +134,60 @@
   <script src="projects.js"></script>
   <script src="audio.js"></script>
   <script src="app.js"></script>
+  <script>
+    // Matrix Rain Engine for Fullscreen Terminal
+    let matrixRunning = false;
+    let matrixInterval = null;
+
+    function toggleMatrixRain() {
+      const canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+
+      if (matrixRunning) {
+        clearInterval(matrixInterval);
+        canvas.style.display = 'none';
+        matrixRunning = false;
+        return;
+      }
+
+      matrixRunning = true;
+      canvas.style.display = 'block';
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+
+      const letters = '01010101ERFANDEVNEXTJSREACTPRISMATYPESCRIPT0123456789';
+      const fontSize = 14;
+      const columns = Math.floor(canvas.width / fontSize);
+      const drops = Array(columns).fill(1);
+
+      matrixInterval = setInterval(() => {
+        ctx.fillStyle = 'rgba(4, 6, 10, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = fontSize + 'px JetBrains Mono';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters[Math.floor(Math.random() * letters.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }, 35);
+    }
+
+    function injectTerm(cmd) {
+      const input = document.getElementById('termInput');
+      if (!input) return;
+      input.value = cmd;
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      input.dispatchEvent(event);
+      if (cmd === 'matrix') toggleMatrixRain();
+    }
+  </script>
 </body>
 </html>

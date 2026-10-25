@@ -3,34 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Engineering Architecture & Production Catalog — Erfan Mehdi Sadeghi</title>
+  <title>Engineering Architecture & Verified Production Catalog — Erfan Mehdi Sadeghi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .catalog-hero-stat {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Top Scroll Progress -->
+  <div id="scrollProgress"></div>
+
+  <!-- Ambient Dynamic Starfield Background -->
+  <canvas id="bgCanvas"></canvas>
 
   <!-- Navigation -->
   <header class="navbar">
     <div class="container nav-wrapper">
-      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
+      <a href="index.html" class="brand-badge" onmouseenter="if(window.Sound)Sound.playHover()">
         <div class="brand-icon">E</div>
         <div>
-          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">ERFAN.DEV</div>
+          <div style="font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em;">ERFAN.DEV</div>
           <div class="mono" style="font-size: 11px; color: var(--text-dim);">SYSTEM CATALOG</div>
         </div>
       </a>
 
-      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
-        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Home</a>
-        <a href="brew-lab.html" style="color: var(--text-muted); text-decoration: none;">DUN Brew Lab</a>
-        <a href="terminal.html" style="color: var(--text-muted); text-decoration: none;">Terminal OS</a>
-        <a href="resume.html" style="color: var(--text-muted); text-decoration: none;">Resume</a>
-      </div>
+      <nav class="nav-links mono">
+        <a href="index.html" class="nav-link">&larr; Return Home</a>
+        <a href="brew-lab.html" class="nav-link">DUN Brew Lab</a>
+        <a href="terminal.html" class="nav-link">Terminal OS</a>
+        <a href="resume.html" class="nav-link">Resume</a>
+      </nav>
 
       <div class="nav-actions">
+        <button id="cmdTriggerBtn" class="cmd-trigger-btn mono" title="Search or Run Commands">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 11px;"></i>
+          <span>Cmd+K</span>
+        </button>
+        <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound Feedback">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
         <a href="https://github.com/erfandarrudi527-gif" target="_blank" class="btn-outline mono" style="font-size: 12px;">
           <i class="fa-brands fa-github"></i> GitHub Repos
         </a>
@@ -40,18 +62,33 @@
 
   <main class="container" style="padding: 60px 24px 100px;">
     
-    <div class="section-header" style="margin-bottom: 40px;">
-      <span class="section-tag mono">// FULL ARCHIVE</span>
-      <h1 class="section-title">Verified Production Projects & Architecture</h1>
-      <p style="color: var(--text-muted); font-size: 15px; margin-top: 8px;">
-        Complete breakdown of deployed web apps, headless CMS setups, progressive web apps, and design systems.
-      </p>
+    <div class="section-header reveal-item" style="margin-bottom: 35px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <span class="section-tag mono">// VERIFIED DEPLOYMENTS ARCHIVE</span>
+          <h1 class="section-title">Production Repositories & 100% Live Deployments</h1>
+          <p style="color: var(--text-muted); font-size: 15px; margin-top: 8px; max-width: 700px;">
+            Every single engineering deliverable is accompanied by an active, operational live web demo and full source code repository.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <div class="catalog-hero-stat">
+            <div class="mono" style="font-size: 22px; font-weight: 800; color: #fff;">10 / 10</div>
+            <div class="mono" style="font-size: 10px; color: #10b981;">LIVE DEMOS ONLINE</div>
+          </div>
+          <div class="catalog-hero-stat">
+            <div class="mono" style="font-size: 22px; font-weight: 800; color: var(--accent);">100%</div>
+            <div class="mono" style="font-size: 10px; color: var(--text-dim);">EDGE COMPLIANT</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Filter Bar -->
-    <div class="filter-bar">
+    <div class="filter-bar reveal-item">
       <div class="filter-pills mono">
-        <button class="filter-pill active" data-cat="all">ALL REPOSITORIES</button>
+        <button class="filter-pill active" data-cat="all">ALL DEPLOYMENTS (10)</button>
         <button class="filter-pill" data-cat="web-apps">WEB APPS</button>
         <button class="filter-pill" data-cat="ecommerce">E-COMMERCE</button>
         <button class="filter-pill" data-cat="mobile">MOBILE & PWA</button>
@@ -64,16 +101,91 @@
       </div>
     </div>
 
-    <!-- Projects Grid -->
+    <!-- 3D Tilt Projects Grid -->
     <div class="projects-grid" id="projectsGrid"></div>
 
   </main>
+
+  <!-- Spotlight Command Palette (Cmd+K) -->
+  <div class="cmd-palette-overlay" id="cmdPalette">
+    <div class="cmd-palette-box">
+      <div class="cmd-search-header">
+        <i class="fa-solid fa-terminal" style="color: var(--accent); font-size: 14px;"></i>
+        <input type="text" id="cmdInput" placeholder="Search project or jump to page..." autocomplete="off">
+        <span class="mono" style="font-size: 11px; color: var(--text-dim); background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 4px;">ESC</span>
+      </div>
+
+      <div class="cmd-list" id="cmdList">
+        <div class="cmd-group-title">Pages</div>
+        <div class="cmd-item" onclick="window.location.href='index.html'">
+          <span><i class="fa-solid fa-house" style="width: 20px; color: var(--accent);"></i> Return Home</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Page</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='brew-lab.html'">
+          <span><i class="fa-solid fa-mug-hot" style="width: 20px; color: var(--amber);"></i> DUN Coffee Brew Lab</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Studio</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='terminal.html'">
+          <span><i class="fa-solid fa-terminal" style="width: 20px; color: var(--cyan);"></i> Developer Shell</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Terminal</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='resume.html'">
+          <span><i class="fa-solid fa-file-lines" style="width: 20px; color: var(--purple);"></i> Curriculum Vitae</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Resume</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Spec Modal -->
   <div class="modal-overlay" id="projectModalOverlay" onclick="if(event.target === this) closeProjectModal();">
     <div class="modal-box">
       <button class="modal-close" onclick="closeProjectModal();">&times;</button>
       <div id="projectModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contactModalOverlay" onclick="if(event.target === this) closeContactModal();">
+    <div class="modal-box">
+      <button class="modal-close" id="closeContactBtn">&times;</button>
+      <div style="margin-bottom: 20px;">
+        <span class="section-tag mono">// DIRECT REACH</span>
+        <h3 style="font-size: 22px; font-weight: 800; margin-top: 4px;">Initiate Contact & Commission</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+          Available for senior frontend development contracts, design system engineering, and web architecture advisory.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+        <button class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="copyText('erfandarrudi527@gmail.com', 'Email copied to clipboard!');">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-regular fa-envelope" style="color: var(--accent);"></i>
+            <span class="mono" style="font-size: 13px;">erfandarrudi527@gmail.com</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);"><i class="fa-regular fa-copy"></i> Copy</span>
+        </button>
+
+        <a href="https://t.me/erfan_sadeghi" target="_blank" class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="if(window.Sound)Sound.playClick();">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-brands fa-telegram" style="color: #38bdf8;"></i>
+            <span class="mono" style="font-size: 13px;">Telegram Direct</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Chat ↗</span>
+        </a>
+
+        <a href="https://github.com/erfandarrudi527-gif" target="_blank" class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="if(window.Sound)Sound.playClick();">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-brands fa-github" style="color: #cbd5e1;"></i>
+            <span class="mono" style="font-size: 13px;">GitHub Repositories</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Follow ↗</span>
+        </a>
+      </div>
+
+      <div style="text-align: right;">
+        <button class="btn-primary" onclick="closeContactModal();">Done</button>
+      </div>
     </div>
   </div>
 

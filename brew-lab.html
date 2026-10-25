@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>DUN Coffee Roastery & Brew Lab — Interactive Extraction Studio</title>
+  <title>DUN Coffee Roastery & Extraction Studio — Interactive Brew Lab v3.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,45 +13,107 @@
     body {
       background-color: #020101;
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.16) 0%, transparent 65%),
         linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     }
+
+    /* Coffee Dripper & Decanter Visualizer */
+    .carafe-stage {
+      background: #060302;
+      border: 1px solid #29150b;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carafe-svg {
+      width: 140px;
+      height: 200px;
+    }
+
+    .coffee-liquid-level {
+      transition: height 0.4s ease, y 0.4s ease;
+    }
+
+    .water-drop {
+      animation: drip 1.2s infinite ease-in;
+    }
+
+    @keyframes drip {
+      0% { transform: translateY(0); opacity: 0; }
+      30% { opacity: 1; }
+      90% { transform: translateY(55px); opacity: 1; }
+      100% { transform: translateY(60px); opacity: 0; }
+    }
+
     .pour-progress-bar {
       height: 8px;
       border-radius: 4px;
       background: #1c100a;
       overflow: hidden;
-      margin-top: 10px;
+      margin-top: 8px;
     }
+
     .pour-progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #d97706, #f59e0b);
       width: 0%;
-      transition: width 0.3s ease;
+      transition: width 0.35s ease;
+    }
+
+    .preset-pill-btn {
+      padding: 6px 14px;
+      background: #140b07;
+      border: 1px solid #332219;
+      color: #d97706;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .preset-pill-btn:hover, .preset-pill-btn.active {
+      background: #d97706;
+      color: #ffffff;
+      border-color: #f59e0b;
     }
   </style>
 </head>
 <body>
 
+  <!-- Scroll Progress -->
+  <div id="scrollProgress"></div>
+
   <!-- Navigation -->
-  <header class="navbar" style="background: rgba(2, 1, 1, 0.9);">
+  <header class="navbar" style="background: rgba(2, 1, 1, 0.92); border-bottom-color: #332219;">
     <div class="container nav-wrapper">
-      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #d97706, #78350f);">D</div>
+      <a href="index.html" class="brand-badge" onmouseenter="if(window.Sound)Sound.playHover()">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #d97706, #78350f); box-shadow: 0 0 20px rgba(217, 119, 6, 0.45);">D</div>
         <div>
-          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">DUN.STUDIO</div>
-          <div class="mono" style="font-size: 11px; color: #d97706;">BREW LAB v2.4</div>
+          <div style="font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em;">DUN.STUDIO</div>
+          <div class="mono" style="font-size: 11px; color: #d97706;">EXTRACTION LAB v3.0</div>
         </div>
       </a>
 
-      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
-        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Return to Portfolio</a>
-        <a href="projects.html" style="color: var(--text-muted); text-decoration: none;">All Projects</a>
-      </div>
+      <nav class="nav-links mono">
+        <a href="index.html" class="nav-link">&larr; Return to Suite</a>
+        <a href="projects.html" class="nav-link">Catalog</a>
+        <a href="terminal.html" class="nav-link">Terminal</a>
+        <a href="resume.html" class="nav-link">Resume</a>
+      </nav>
 
       <div class="nav-actions">
-        <a href="https://github.com/erfandarrudi527-gif/dun-coffee-roastery" target="_blank" class="btn-outline mono" style="font-size: 12px;">
+        <button id="soundToggleBtn" class="btn-icon" style="border-color: #332219;" title="Toggle Sound Feedback">
+          <i class="fa-solid fa-volume-high" style="color: #d97706;"></i>
+        </button>
+        <a href="https://github.com/erfandarrudi527-gif/dun-coffee-roastery" target="_blank" class="btn-outline mono" style="font-size: 12px; border-color: #332219; color: #d97706;">
           <i class="fa-brands fa-github"></i> Repository
         </a>
       </div>
@@ -60,128 +122,186 @@
 
   <main class="container" style="padding: 60px 24px 100px;">
     
-    <div class="section-header" style="text-align: center; max-width: 720px; margin: 0 auto 50px;">
-      <span class="section-tag mono" style="color: #d97706;">// ARTISAN COFFEE ENGINEERING</span>
-      <h1 class="section-title" style="font-size: clamp(32px, 5vw, 48px);">Bespoke Pour-Over Yield & Extraction Lab</h1>
+    <div class="section-header reveal-item" style="text-align: center; max-width: 760px; margin: 0 auto 50px;">
+      <span class="section-tag mono" style="color: #d97706;">// PITCH ESPRESSO LAB #020101</span>
+      <h1 class="section-title" style="font-size: clamp(34px, 5.5vw, 52px);">Bespoke Pour-Over Yield & Extraction Studio</h1>
       <p style="color: var(--text-muted); font-size: 15px; margin-top: 14px;">
-        Engineered with a pitch espresso aesthetic (<span class="mono" style="color: #f59e0b;">#020101</span>). Calibrate extraction ratios, bloom timing, and TDS yield curves in real-time.
+        Interactive extraction science. Real-time TDS calculations, grind micron calibration, dynamic stage water tracking, and live animated dripper visualization.
       </p>
+
+      <!-- Quick Recipe Presets -->
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+        <button class="preset-pill-btn active" onclick="applyPreset('golden');">Golden Ratio (1:16)</button>
+        <button class="preset-pill-btn" onclick="applyPreset('japanese');">Japanese Iced Brew (1:12)</button>
+        <button class="preset-pill-btn" onclick="applyPreset('scandinavian');">Nordic Light Roast (1:17)</button>
+        <button class="preset-pill-btn" onclick="applyPreset('bold');">Bold Chemex (1:15)</button>
+      </div>
     </div>
 
-    <!-- The Master Lab Card -->
-    <div class="lab-card" style="max-width: 960px; margin: 0 auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #332219; padding-bottom: 20px; margin-bottom: 24px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <i class="fa-solid fa-mug-hot" style="font-size: 24px; color: #d97706;"></i>
+    <!-- The Master Lab Grid -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; max-width: 1100px; margin: 0 auto;">
+      
+      <!-- Left: Interactive Controls & Computations -->
+      <div class="lab-card reveal-item" style="margin-bottom: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #332219; padding-bottom: 20px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="fa-solid fa-mug-hot" style="font-size: 24px; color: #d97706;"></i>
+            <div>
+              <h3 style="font-size: 18px; font-weight: 800; color: #fff;">DUN Extraction Engine</h3>
+              <span class="mono" style="font-size: 11px; color: #a8a29e;">GOLDEN CUP PROTOCOL</span>
+            </div>
+          </div>
+          <span class="status-pill mono" style="background: rgba(217, 119, 6, 0.12); border-color: rgba(217, 119, 6, 0.35); color: #f59e0b;" id="activeProfilePill">
+            PROFILE: HARIO V60
+          </span>
+        </div>
+
+        <div class="lab-grid" style="grid-template-columns: 1fr 1fr;">
+          <!-- Sliders -->
           <div>
-            <h3 style="font-size: 18px; font-weight: 700; color: #fff;">DUN Extraction Engine</h3>
-            <span class="mono" style="font-size: 11px; color: #a8a29e;">DYNAMIC RECIPE CALIBRATOR</span>
+            <div class="lab-control-group">
+              <label>
+                <span>BREWING DEVICE</span>
+                <span id="methodTag" style="color: #d97706;">POUR-OVER</span>
+              </label>
+              <select id="brewMethodPage" style="width: 100%; background: #120b08; color: #f59e0b; border: 1px solid #332219; padding: 12px; border-radius: 8px; font-family: var(--font-mono); outline: none;">
+                <option value="v60">Hario V60 (Ceramic Dripper)</option>
+                <option value="chemex">Chemex (Fiber Filter)</option>
+                <option value="aeropress">AeroPress (Inverted Flow)</option>
+                <option value="frenchpress">French Press (Full Immersion)</option>
+              </select>
+            </div>
+
+            <div class="lab-control-group">
+              <label>
+                <span>COFFEE DOSE (DRY GROUNDS)</span>
+                <span id="doseVal" style="color: #fff; font-size: 15px;">20g</span>
+              </label>
+              <input type="range" id="doseSliderPage" min="12" max="40" value="20" step="1" class="lab-slider">
+            </div>
+
+            <div class="lab-control-group">
+              <label>
+                <span>BREW RATIO</span>
+                <span id="ratioVal" style="color: #fff; font-size: 15px;">1:16</span>
+              </label>
+              <input type="range" id="ratioSliderPage" min="12" max="18" value="16" step="0.5" class="lab-slider">
+            </div>
+
+            <div class="lab-control-group">
+              <label>
+                <span>WATER TEMPERATURE</span>
+                <span id="tempVal" style="color: #fff; font-size: 15px;">93°C (200°F)</span>
+              </label>
+              <input type="range" id="tempSliderPage" min="88" max="98" value="93" step="1" class="lab-slider">
+            </div>
+          </div>
+
+          <!-- Real-time Metrics -->
+          <div class="lab-results" style="background: #090503; border-color: #3b2214;">
+            <div class="lab-result-row">
+              <span class="mono" style="font-size: 13px; color: #a8a29e;">Target Water Volume:</span>
+              <span id="targetWater" class="lab-result-val" style="font-size: 24px; color: #f59e0b;">320 ml</span>
+            </div>
+
+            <div style="padding: 10px 0;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+                <span>Bloom Stage (45s):</span>
+                <span id="bloomStage" style="color: #f59e0b; font-weight: 700;">50 ml</span>
+              </div>
+              <div class="pour-progress-bar"><div id="barBloom" class="pour-progress-fill" style="width: 15%;"></div></div>
+            </div>
+
+            <div style="padding: 10px 0;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+                <span>First Main Pour (1:15):</span>
+                <span id="pourOne" style="color: #f59e0b; font-weight: 700;">160 ml</span>
+              </div>
+              <div class="pour-progress-bar"><div id="barPour1" class="pour-progress-fill" style="width: 65%;"></div></div>
+            </div>
+
+            <div style="padding: 10px 0;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+                <span>Final Pour (2:30):</span>
+                <span id="pourTwo" style="color: #f59e0b; font-weight: 700;">110 ml</span>
+              </div>
+              <div class="pour-progress-bar"><div id="barPour2" class="pour-progress-fill" style="width: 100%;"></div></div>
+            </div>
+
+            <div class="lab-result-row" style="margin-top: 6px;">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Burr Micron Calibration:</span>
+              <span id="grindMicron" class="mono" style="font-size: 13px; color: #fff;">Medium-Fine (600 µm)</span>
+            </div>
+
+            <div class="lab-result-row" style="border-bottom: none;">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Target Extraction Window:</span>
+              <span id="contactTime" class="lab-result-val">2:45 - 3:15</span>
+            </div>
           </div>
         </div>
-        <span class="status-pill mono" style="background: rgba(217, 119, 6, 0.1); border-color: rgba(217, 119, 6, 0.3); color: #f59e0b;">
-          ACTIVE PROFILE: SPECIALTY V60
-        </span>
-      </div>
 
-      <div class="lab-grid">
-        <!-- Controls Column -->
-        <div>
-          <div class="lab-control-group">
-            <label>
-              <span>BREWING METHOD</span>
-              <span id="methodTag" style="color: #d97706;">POUR-OVER</span>
-            </label>
-            <select id="brewMethodPage" style="width: 100%; background: #120b08; color: #f59e0b; border: 1px solid #332219; padding: 12px; border-radius: 8px; font-family: var(--font-mono); outline: none;">
-              <option value="v60">Hario V60 (Ceramic Dripper)</option>
-              <option value="chemex">Chemex (Thick Fiber Filter)</option>
-              <option value="aeropress">AeroPress (Inverted Technique)</option>
-              <option value="frenchpress">French Press (Full Immersion)</option>
-            </select>
-          </div>
-
-          <div class="lab-control-group">
-            <label>
-              <span>COFFEE DOSE (DRY GROUNDS)</span>
-              <span id="doseVal" style="color: #fff; font-size: 15px;">20g</span>
-            </label>
-            <input type="range" id="doseSliderPage" min="12" max="40" value="20" step="1" class="lab-slider">
-          </div>
-
-          <div class="lab-control-group">
-            <label>
-              <span>BREW RATIO</span>
-              <span id="ratioVal" style="color: #fff; font-size: 15px;">1:16</span>
-            </label>
-            <input type="range" id="ratioSliderPage" min="13" max="18" value="16" step="0.5" class="lab-slider">
-          </div>
-
-          <div class="lab-control-group">
-            <label>
-              <span>WATER TEMPERATURE</span>
-              <span id="tempVal" style="color: #fff; font-size: 15px;">93°C (200°F)</span>
-            </label>
-            <input type="range" id="tempSliderPage" min="88" max="98" value="93" step="1" class="lab-slider">
-          </div>
-        </div>
-
-        <!-- Real-time Specs Column -->
-        <div class="lab-results" style="background: #090503; border-color: #3b2214;">
-          <div class="lab-result-row">
-            <span class="mono" style="font-size: 13px; color: #a8a29e;">Total Water Target:</span>
-            <span id="targetWater" class="lab-result-val" style="font-size: 24px; color: #f59e0b;">320 ml</span>
-          </div>
-
-          <div style="padding: 12px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
-              <span>Bloom Stage (45s):</span>
-              <span id="bloomStage" style="color: #f59e0b; font-weight: 700;">50 ml</span>
-            </div>
-            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 15%;"></div></div>
-          </div>
-
-          <div style="padding: 12px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
-              <span>First Main Pour (1:15):</span>
-              <span id="pourOne" style="color: #f59e0b; font-weight: 700;">160 ml</span>
-            </div>
-            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 65%;"></div></div>
-          </div>
-
-          <div style="padding: 12px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
-              <span>Final Pour (2:30):</span>
-              <span id="pourTwo" style="color: #f59e0b; font-weight: 700;">110 ml</span>
-            </div>
-            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 100%;"></div></div>
-          </div>
-
-          <div class="lab-result-row" style="margin-top: 8px;">
-            <span class="mono" style="font-size: 12px; color: #a8a29e;">Burr Particle Calibration:</span>
-            <span id="grindMicron" class="mono" style="font-size: 13px; color: #fff;">Medium-Fine (600 µm)</span>
-          </div>
-
-          <div class="lab-result-row" style="border-bottom: none;">
-            <span class="mono" style="font-size: 12px; color: #a8a29e;">Target Total Contact Time:</span>
-            <span id="contactTime" class="lab-result-val">2:45 - 3:15</span>
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #332219; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <span class="mono" style="font-size: 12px; color: #78716c;">
+            <i class="fa-solid fa-code-branch" style="color: #d97706; margin-right: 6px;"></i>
+            Estimated TDS Yield: 1.34% · Extraction: 19.8%
+          </span>
+          <div style="display: flex; gap: 10px;">
+            <button id="brewAudioTimerBtn" class="btn-primary" style="background: #d97706; border-color: #f59e0b;" onclick="toggleExtractionTimer();">
+              <i class="fa-solid fa-play"></i> Run Extraction Timer
+            </button>
+            <button class="btn-outline" style="border-color: #332219;" onclick="saveRecipe();">
+              <i class="fa-solid fa-bookmark"></i> Save
+            </button>
           </div>
         </div>
       </div>
 
-      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #332219; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
-        <span class="mono" style="font-size: 12px; color: #78716c;">
-          <i class="fa-solid fa-code-branch" style="color: #d97706; margin-right: 6px;"></i>
-          Extracted via Golden Cup standard TDS 1.25% - 1.45%
-        </span>
-        <button class="btn-primary" style="background: #d97706; border-color: #f59e0b;" onclick="Sound.playSuccess(); showToast('Brew Recipe Logged to Local Storage');">
-          <i class="fa-solid fa-bookmark"></i> Save Calibration Preset
-        </button>
+      <!-- Right: Live Animated Dripper & Decanter Graphic -->
+      <div class="carafe-stage reveal-item">
+        <span class="mono" style="font-size: 11px; color: #d97706; letter-spacing: 0.1em; margin-bottom: 16px;">LIVE EXTRACTION VISUALIZER</span>
+        
+        <svg class="carafe-svg" viewBox="0 0 140 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Dripper Cone -->
+          <polygon points="30,20 110,20 85,75 55,75" stroke="#d97706" stroke-width="2.5" fill="#140b07"/>
+          <!-- Coffee Bed in Dripper -->
+          <polygon points="38,35 102,35 80,70 60,70" fill="#3b1d11"/>
+          
+          <!-- Water Droplet Animated -->
+          <circle id="droplet" class="water-drop" cx="70" cy="80" r="3.5" fill="#f59e0b"/>
+
+          <!-- Decanter Glass Outer -->
+          <path d="M50,90 L90,90 L115,180 L25,180 Z" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="rgba(255,255,255,0.03)"/>
+          
+          <!-- Liquid Level in Decanter -->
+          <rect id="coffeeLiquid" class="coffee-liquid-level" x="27" y="150" width="86" height="30" fill="url(#coffeeGrad)" rx="3"/>
+
+          <!-- Decanter Neck Ring -->
+          <rect x="46" y="85" width="48" height="6" stroke="#d97706" stroke-width="1.5" fill="#2d180f" rx="2"/>
+
+          <defs>
+            <linearGradient id="coffeeGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#d97706" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#451a03" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div style="text-align: center; margin-top: 18px;">
+          <div class="mono" style="font-size: 26px; font-weight: 800; color: #f59e0b;" id="timerDisplay">00:00</div>
+          <div class="mono" style="font-size: 11px; color: #a8a29e; margin-top: 4px;" id="timerStageLabel">READY TO BREW</div>
+        </div>
       </div>
+
     </div>
 
   </main>
 
   <script src="audio.js"></script>
   <script>
+    let timerRunning = false;
+    let timerSeconds = 0;
+    let timerInterval = null;
+
     document.addEventListener('DOMContentLoaded', () => {
       const methodEl = document.getElementById('brewMethodPage');
       const doseEl = document.getElementById('doseSliderPage');
@@ -202,19 +322,23 @@
         let grind = "Medium-Fine (600 µm)";
         let time = "2:45 - 3:15";
         let methodLabel = "POUR-OVER";
+        let profileLabel = "HARIO V60";
 
         if (method === 'chemex') {
           grind = "Medium-Coarse (800 µm)";
           time = "3:45 - 4:30";
           methodLabel = "CHEMEX POUR";
+          profileLabel = "CHEMEX FIBER";
         } else if (method === 'aeropress') {
           grind = "Fine-Medium (450 µm)";
           time = "1:45 - 2:00";
-          methodLabel = "PRESSURE EXTRACTION";
+          methodLabel = "PRESSURE";
+          profileLabel = "AEROPRESS";
         } else if (method === 'frenchpress') {
           grind = "Coarse (1000 µm)";
           time = "4:00 - 5:00";
-          methodLabel = "FULL IMMERSION";
+          methodLabel = "IMMERSION";
+          profileLabel = "FRENCH PRESS";
         }
 
         document.getElementById('doseVal').textContent = dose + 'g';
@@ -227,14 +351,99 @@
         document.getElementById('grindMicron').textContent = grind;
         document.getElementById('contactTime').textContent = time;
         document.getElementById('methodTag').textContent = methodLabel;
+        document.getElementById('activeProfilePill').textContent = 'PROFILE: ' + profileLabel;
+
+        // Animate liquid height based on total water (200ml = 15px, 600ml = 50px)
+        const liquidEl = document.getElementById('coffeeLiquid');
+        if (liquidEl) {
+          const clamped = Math.min(Math.max(totalWater, 180), 650);
+          const h = 15 + ((clamped - 180) / 470) * 38;
+          liquidEl.setAttribute('height', h);
+          liquidEl.setAttribute('y', 180 - h);
+        }
       }
 
-      doseEl.addEventListener('input', () => { update(); Sound.playHover(); });
-      ratioEl.addEventListener('input', () => { update(); Sound.playHover(); });
-      tempEl.addEventListener('input', () => { update(); Sound.playHover(); });
-      methodEl.addEventListener('change', () => { update(); Sound.playClick(); });
+      doseEl.addEventListener('input', () => { update(); if(window.Sound) Sound.playHover(); });
+      ratioEl.addEventListener('input', () => { update(); if(window.Sound) Sound.playHover(); });
+      tempEl.addEventListener('input', () => { update(); if(window.Sound) Sound.playHover(); });
+      methodEl.addEventListener('change', () => { update(); if(window.Sound) Sound.playClick(); });
       update();
+
+      // Scroll progress
+      window.addEventListener('scroll', () => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+        document.getElementById('scrollProgress').style.width = progress + '%';
+      });
     });
+
+    function toggleExtractionTimer() {
+      const btn = document.getElementById('brewAudioTimerBtn');
+      const display = document.getElementById('timerDisplay');
+      const stageLabel = document.getElementById('timerStageLabel');
+
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.innerHTML = `<i class="fa-solid fa-play"></i> Run Extraction Timer`;
+        stageLabel.textContent = 'TIMER PAUSED';
+        if (window.Sound) Sound.playClick();
+        return;
+      }
+
+      timerRunning = true;
+      btn.innerHTML = `<i class="fa-solid fa-pause"></i> Pause Timer`;
+      if (window.Sound) Sound.playSuccess();
+
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+        const secs = String(timerSeconds % 60).padStart(2, '0');
+        display.textContent = `${mins}:${secs}`;
+
+        if (timerSeconds <= 45) {
+          stageLabel.textContent = `BLOOM PHASE (${45 - timerSeconds}s left)`;
+        } else if (timerSeconds <= 120) {
+          stageLabel.textContent = `FIRST MAIN POUR (Spiral motion)`;
+        } else if (timerSeconds <= 180) {
+          stageLabel.textContent = `FINAL POUR (Center draw down)`;
+        } else {
+          stageLabel.textContent = `EXTRACTION COMPLETE ✓`;
+        }
+
+        if (timerSeconds === 45 || timerSeconds === 120 || timerSeconds === 180) {
+          if (window.Sound) Sound.playBeep(880, 'sine', 0.2, 0.15);
+        }
+      }, 1000);
+    }
+
+    function applyPreset(type) {
+      document.querySelectorAll('.preset-pill-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const doseEl = document.getElementById('doseSliderPage');
+      const ratioEl = document.getElementById('ratioSliderPage');
+      const tempEl = document.getElementById('tempSliderPage');
+      const methodEl = document.getElementById('brewMethodPage');
+
+      if (type === 'golden') {
+        doseEl.value = 20; ratioEl.value = 16; tempEl.value = 93; methodEl.value = 'v60';
+      } else if (type === 'japanese') {
+        doseEl.value = 24; ratioEl.value = 12; tempEl.value = 95; methodEl.value = 'v60';
+      } else if (type === 'scandinavian') {
+        doseEl.value = 18; ratioEl.value = 17; tempEl.value = 96; methodEl.value = 'chemex';
+      } else if (type === 'bold') {
+        doseEl.value = 30; ratioEl.value = 15; tempEl.value = 94; methodEl.value = 'chemex';
+      }
+
+      doseEl.dispatchEvent(new Event('input'));
+      if (window.Sound) Sound.playSuccess();
+    }
+
+    function saveRecipe() {
+      if (window.Sound) Sound.playSuccess();
+      showToast('Brew recipe saved to local calibration bank');
+    }
 
     function showToast(msg) {
       let toast = document.getElementById('toastMsg');
@@ -246,7 +455,7 @@
       }
       toast.textContent = msg;
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2400);
+      setTimeout(() => toast.classList.remove('show'), 2500);
     }
   </script>
 </body>
