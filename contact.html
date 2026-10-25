@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact & Commission Inquiries — Erfan Mehdi Sadeghi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 36px;
+      margin-top: 40px;
+    }
+    @media (max-width: 900px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .contact-info-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .contact-form-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    }
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: #060911;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      background: #090d18;
+    }
+    .channel-card {
+      background: #060911;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .channel-card:hover {
+      border-color: var(--border-active);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+    }
+    .channel-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Scroll Progress -->
+  <div id="scrollProgress"></div>
+
+  <!-- Ambient Dynamic Starfield Background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-badge" onmouseenter="if(window.Sound)Sound.playHover()">
+        <div class="brand-icon">E</div>
+        <div>
+          <div style="font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em;">ERFAN.DEV</div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">DIRECT CONTACT</div>
+        </div>
+      </a>
+
+      <nav class="nav-links mono">
+        <a href="index.html" class="nav-link">&larr; Return Home</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="contact.html" class="nav-link active">Contact Us</a>
+        <a href="terminal.html" class="nav-link">Terminal OS</a>
+        <a href="resume.html" class="nav-link">Resume</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="cmdTriggerBtn" class="cmd-trigger-btn mono" title="Search or Run Commands">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 11px;"></i>
+          <span>Cmd+K</span>
+        </button>
+        <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound Feedback">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <a href="https://t.me/erfan_sadeghi" target="_blank" class="btn-primary" style="padding: 7px 16px; font-size: 12px;">
+          <i class="fa-brands fa-telegram"></i> Telegram Chat
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 60px 24px 100px;">
+    
+    <div class="section-header reveal-item" style="text-align: center; max-width: 760px; margin: 0 auto 30px;">
+      <span class="section-tag mono" style="color: var(--accent);">// DIRECT CLIENT CONSULTATION</span>
+      <h1 class="section-title" style="font-size: clamp(34px, 5.5vw, 52px);">Let’s Build Something Exceptional Together</h1>
+      <p style="color: var(--text-muted); font-size: 15px; margin-top: 14px;">
+        Available for senior frontend engineering, Next.js 15 enterprise architecture, design systems, and client software contracts.
+      </p>
+    </div>
+
+    <!-- Contact Grid -->
+    <div class="contact-layout">
+      
+      <!-- Left: Official Channels & Availability -->
+      <div class="contact-info-panel reveal-item">
+        <div>
+          <div class="mono" style="font-size: 12px; color: var(--emerald); display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+            <span class="status-dot"></span> AVAILABLE FOR NEW PROJECTS & CONTRACTS
+          </div>
+          <h2 style="font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 12px;">Get In Touch</h2>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.7; margin-bottom: 28px;">
+            Whether you need a full-stack platform built from scratch, an existing web application audited for performance, or a high-converting dark-mode UI/UX design system, feel free to reach out directly through any channel.
+          </p>
+
+          <!-- Channel 1: Email -->
+          <div class="channel-card" onclick="copyText('erfandarrudi527@gmail.com', 'Email copied to clipboard!');">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div class="channel-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">
+                <i class="fa-regular fa-envelope"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; font-size: 13.5px;">Direct Email</div>
+                <div class="mono" style="font-size: 12px; color: var(--text-dim);">erfandarrudi527@gmail.com</div>
+              </div>
+            </div>
+            <span class="mono" style="font-size: 11px; color: var(--text-dim);"><i class="fa-regular fa-copy"></i> Copy</span>
+          </div>
+
+          <!-- Channel 2: Telegram -->
+          <a href="https://t.me/erfan_sadeghi" target="_blank" class="channel-card" onclick="if(window.Sound)Sound.playClick();">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div class="channel-icon" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">
+                <i class="fa-brands fa-telegram"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; font-size: 13.5px;">Telegram Messaging</div>
+                <div class="mono" style="font-size: 12px; color: var(--text-dim);">@erfan_sadeghi</div>
+              </div>
+            </div>
+            <span class="mono" style="font-size: 11px; color: var(--cyan);">Open ↗</span>
+          </a>
+
+          <!-- Channel 3: GitHub -->
+          <a href="https://github.com/erfandarrudi527-gif" target="_blank" class="channel-card" onclick="if(window.Sound)Sound.playClick();">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div class="channel-icon" style="background: rgba(255, 255, 255, 0.08); color: #f1f5f9;">
+                <i class="fa-brands fa-github"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; font-size: 13.5px;">GitHub Organization</div>
+                <div class="mono" style="font-size: 12px; color: var(--text-dim);">erfandarrudi527-gif</div>
+              </div>
+            </div>
+            <span class="mono" style="font-size: 11px; color: var(--text-dim);">View ↗</span>
+          </a>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 20px; margin-top: 20px;">
+          <div class="mono" style="font-size: 11.5px; color: var(--text-dim);">
+            <i class="fa-solid fa-clock" style="color: var(--accent); margin-right: 6px;"></i> Average Response Time: <strong style="color: #fff;">Within 2-4 Hours</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Inquiry Form -->
+      <div class="contact-form-panel reveal-item">
+        <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px;">Send a Direct Message</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+          Fill out this form and we'll get back to you with a tailored technical proposal and timeline.
+        </p>
+
+        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="userName">Your Name / Organization</label>
+              <input type="text" id="userName" class="form-input" placeholder="e.g. Alex Henderson" required>
+            </div>
+            <div class="form-group">
+              <label for="userEmail">Email Address</label>
+              <input type="email" id="userEmail" class="form-input" placeholder="alex@company.com" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="projectType">Project Scope</label>
+              <select id="projectType" class="form-select">
+                <option value="fullstack">Next.js 15 Full-Stack Application</option>
+                <option value="webapp">React 19 Interactive Platform</option>
+                <option value="landing">High-Converting Landing Page</option>
+                <option value="cms">Headless CMS & Publishing Engine</option>
+                <option value="design">UI/UX Design System & Audit</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="projectBudget">بودجه تقریبی پروژه (تومان)</label>
+              <select id="projectBudget" class="form-select">
+                <option value="15-30m">۱۵ تا ۳۰ میلیون تومان</option>
+                <option value="30-60m">۳۰ تا ۶۰ میلیون تومان</option>
+                <option value="60-120m">۶۰ تا ۱۲۰ میلیون تومان</option>
+                <option value="enterprise">بالای ۱۲۰ میلیون تومان / سفارشی سازمانی</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="userMessage">Project Description & Requirements</label>
+            <textarea id="userMessage" class="form-textarea" rows="4" placeholder="Describe your goals, desired timeline, or any reference websites..." required></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 10px;">
+            <span class="mono" style="font-size: 11px; color: var(--text-dim);">
+              <i class="fa-solid fa-lock" style="color: var(--emerald); margin-right: 4px;"></i> 100% Confidential Inquiry
+            </span>
+            <button type="submit" id="submitBtn" class="btn-primary" style="padding: 11px 26px;">
+              <i class="fa-regular fa-paper-plane"></i> Send Inquiry ↗
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Spotlight Command Palette (Cmd+K) -->
+  <div class="cmd-palette-overlay" id="cmdPalette">
+    <div class="cmd-palette-box">
+      <div class="cmd-search-header">
+        <i class="fa-solid fa-terminal" style="color: var(--accent); font-size: 14px;"></i>
+        <input type="text" id="cmdInput" placeholder="Type a command or jump to page..." autocomplete="off">
+        <span class="mono" style="font-size: 11px; color: var(--text-dim); background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 4px;">ESC</span>
+      </div>
+
+      <div class="cmd-list" id="cmdList">
+        <div class="cmd-group-title">Navigation & Pages</div>
+        <div class="cmd-item" onclick="window.location.href='index.html'">
+          <span><i class="fa-solid fa-house" style="width: 20px; color: var(--accent);"></i> Return Home</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Page</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='projects.html'">
+          <span><i class="fa-solid fa-layer-group" style="width: 20px; color: var(--accent);"></i> Projects Catalog</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Page</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='terminal.html'">
+          <span><i class="fa-solid fa-terminal" style="width: 20px; color: var(--cyan);"></i> Developer Shell</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Shell</span>
+        </div>
+        <div class="cmd-item" onclick="window.location.href='resume.html'">
+          <span><i class="fa-solid fa-file-lines" style="width: 20px; color: var(--purple);"></i> Curriculum Vitae</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Resume</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="mono">
+        &copy; 2026 ERFAN MEHDI SADEGHI. ALL RIGHTS RESERVED.
+      </div>
+      <div class="mono" style="display: flex; gap: 16px;">
+        <span>DEPLOYED ON VERCEL EDGE</span>
+        <span>LATENCY: 9ms</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const scope = document.getElementById('projectType').value;
+      const budget = document.getElementById('projectBudget').value;
+      const message = document.getElementById('userMessage').value;
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Dispatching...`;
+      if (window.Sound) Sound.playClick();
+
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-check"></i> Inquiry Received!`;
+        btn.style.background = '#10b981';
+        btn.style.borderColor = '#10b981';
+        if (window.Sound) Sound.playSuccess();
+        showToast('Thank you ' + name + '! Your message has been dispatched successfully.');
+        document.getElementById('contactForm').reset();
+
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-regular fa-paper-plane"></i> Send Another Inquiry`;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+        }, 3500);
+      }, 900);
+    }
+  </script>
+</body>
+</html>

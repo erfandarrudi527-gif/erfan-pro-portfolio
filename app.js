@@ -1,6 +1,7 @@
 // Erfan Portfolio Core Application Logic (v4.5 Luxury High-Motion Edition)
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
+  initCursorGlow();
   initScrollProgressBar();
   initCanvasBackground();
   initContinuousScrollReveal();
@@ -16,6 +17,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 1. Scroll Progress Bar
+function initCursorGlow() {
+  const glow = document.createElement('div');
+  glow.id = 'cursorGlow';
+  document.body.appendChild(glow);
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let curX = mouseX;
+  let curY = mouseY;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, { passive: true });
+
+  function follow() {
+    curX += (mouseX - curX) * 0.12;
+    curY += (mouseY - curY) * 0.12;
+    glow.style.left = curX + 'px';
+    glow.style.top = curY + 'px';
+    requestAnimationFrame(follow);
+  }
+  follow();
+}
+
 function initScrollProgressBar() {
   const bar = document.getElementById('scrollProgress');
   if (!bar) return;
@@ -284,7 +310,7 @@ function initComponentSandbox() {
   update();
 }
 
-// 9.1 Interactive Project Budget & Architecture Estimator
+// 9.1 Interactive Project Budget & Architecture Estimator (Toman Currency)
 function initProjectEstimator() {
   const container = document.getElementById('estimator');
   if (!container) return;
@@ -295,23 +321,41 @@ function initProjectEstimator() {
     addons: new Set(['seo'])
   };
 
+  // Prices in Tomans
   const prices = {
-    scope: { landing: 1200, webapp: 2800, fullstack: 4500, cms: 3600 },
-    timeline: { standard: 1.0, rush: 1.35, flex: 0.9 },
+    scope: {
+      landing: 18000000,     // 18 Million Tomans
+      webapp: 38000000,      // 38 Million Tomans
+      fullstack: 58000000,   // 58 Million Tomans
+      cms: 45000000          // 45 Million Tomans
+    },
+    timeline: { standard: 1.0, rush: 1.3, flex: 0.9 },
     addons: {
-      seo: 350,
-      sound: 250,
-      pwa: 600,
-      motion: 500
+      seo: 6500000,
+      sound: 4000000,
+      pwa: 8500000,
+      motion: 7500000
     }
   };
 
   const days = {
-    scope: { landing: '5-7 Days', webapp: '14-21 Days', fullstack: '3-4 Weeks', cms: '2-3 Weeks' }
+    scope: {
+      landing: '۵ الی ۷ روز کاری',
+      webapp: '۱۴ الی ۲۱ روز کاری',
+      fullstack: '۳ الی ۴ هفته کاری',
+      cms: '۲ الی ۳ هفته کاری'
+    }
+  };
+
+  const scopeLabels = {
+    landing: 'لندینگ پیج اختصاصی',
+    webapp: 'وب‌اپلیکیشن ری‌اکت',
+    fullstack: 'فول‌استک Next.js 15',
+    cms: 'هدلس CMS سازمانی'
   };
 
   function update() {
-    let base = prices.scope[state.scope] || 2500;
+    let base = prices.scope[state.scope] || 35000000;
     let addSum = 0;
     state.addons.forEach(a => { addSum += (prices.addons[a] || 0); });
     
@@ -321,9 +365,11 @@ function initProjectEstimator() {
     const targetEst = document.getElementById('estFinalPrice');
     const targetDays = document.getElementById('estTimelineDays');
     const targetScope = document.getElementById('estScopeLabel');
-    if (targetEst) targetEst.textContent = '$' + finalEst.toLocaleString();
+    if (targetEst) {
+      targetEst.innerHTML = `<span style="font-size: 26px;">${finalEst.toLocaleString('fa-IR')}</span> <span style="font-size: 14px; font-weight: 600; color: #a5b4fc;">تومان</span>`;
+    }
     if (targetDays) targetDays.textContent = days.scope[state.scope];
-    if (targetScope) targetScope.textContent = state.scope.toUpperCase();
+    if (targetScope) targetScope.textContent = scopeLabels[state.scope] || state.scope.toUpperCase();
   }
 
   // Bind clicks
@@ -531,7 +577,7 @@ function runCmd(action) {
       window.location.href = 'resume.html';
       break;
     case 'contact':
-      openContactModal();
+      window.location.href = 'contact.html';
       break;
     case 'sound':
       const isEnabled = Sound.toggle();

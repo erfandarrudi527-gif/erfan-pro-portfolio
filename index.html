@@ -51,8 +51,8 @@
         <a href="#estimator" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
           <i class="fa-solid fa-calculator" style="font-size: 12px; color: var(--emerald);"></i> Estimator
         </a>
-        <a href="brew-lab.html" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
-          <i class="fa-solid fa-mug-hot" style="font-size: 12px; color: var(--amber);"></i> DUN Brew Lab
+        <a href="contact.html" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
+          <i class="fa-solid fa-paper-plane" style="font-size: 12px; color: #38bdf8;"></i> Contact Us
         </a>
         <a href="terminal.html" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
           <i class="fa-solid fa-terminal" style="font-size: 12px; color: var(--cyan);"></i> Terminal OS
@@ -462,11 +462,11 @@
 
             <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
               <div class="receipt-total">
-                <span style="color: var(--text-muted); font-size: 13px;">Estimated Budget:</span>
-                <span id="estFinalPrice" class="mono" style="font-size: 26px; font-weight: 800; color: #10b981;">$4,850</span>
+                <span style="color: var(--text-muted); font-size: 13px;">برآورد نهایی پروژه:</span>
+                <span id="estFinalPrice" class="mono" style="font-size: 24px; font-weight: 800; color: #10b981;">۵۸,۰۰۰,۰۰۰ تومان</span>
               </div>
-              <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="openContactModal();">
-                <i class="fa-solid fa-file-contract"></i> Reserve Consultation Slot
+              <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="window.location.href='contact.html';">
+                <i class="fa-solid fa-file-contract"></i> ثبت درخواست و دریافت پیش‌فاکتور ↗
               </button>
             </div>
           </div>
@@ -533,9 +533,9 @@
           <span><i class="fa-solid fa-calculator" style="width: 20px; color: var(--emerald);"></i> Project Scope Estimator</span>
           <span class="mono" style="font-size: 11px; color: var(--text-dim);">Pricing</span>
         </div>
-        <div class="cmd-item" onclick="runCmd('brew')">
-          <span><i class="fa-solid fa-mug-hot" style="width: 20px; color: var(--amber);"></i> DUN Coffee Brew Lab</span>
-          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Interactive</span>
+        <div class="cmd-item" onclick="runCmd('contact')">
+          <span><i class="fa-regular fa-paper-plane" style="width: 20px; color: #38bdf8;"></i> Contact & Commission</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Page</span>
         </div>
         <div class="cmd-item" onclick="runCmd('terminal')">
           <span><i class="fa-solid fa-terminal" style="width: 20px; color: var(--cyan);"></i> Developer Shell</span>
