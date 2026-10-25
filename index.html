@@ -48,6 +48,9 @@
         <a href="projects.html" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
           <i class="fa-solid fa-layer-group" style="font-size: 12px; color: var(--accent);"></i> Projects
         </a>
+        <a href="#estimator" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
+          <i class="fa-solid fa-calculator" style="font-size: 12px; color: var(--emerald);"></i> Estimator
+        </a>
         <a href="brew-lab.html" class="nav-link" onmouseenter="if(window.Sound)Sound.playHover()">
           <i class="fa-solid fa-mug-hot" style="font-size: 12px; color: var(--amber);"></i> DUN Brew Lab
         </a>
@@ -108,6 +111,9 @@
         <a href="#projects" class="btn-primary" onclick="if(window.Sound)Sound.playClick();">
           <i class="fa-solid fa-layer-group"></i> Explore Projects
         </a>
+        <a href="#estimator" class="btn-outline mono" onclick="if(window.Sound)Sound.playClick();">
+          <i class="fa-solid fa-calculator"></i> Project Estimator
+        </a>
         <a href="#sandbox" class="btn-outline mono" onclick="if(window.Sound)Sound.playClick();">
           <i class="fa-solid fa-code"></i> Component Sandbox
         </a>
@@ -136,6 +142,38 @@
         <div class="stat-card" onmouseenter="if(window.Sound)Sound.playHover()">
           <div class="stat-value">7 Core</div>
           <div class="stat-label">Verified Tech Stack</div>
+        </div>
+      </div>
+
+      <!-- CLIENT TRUST STRIP -->
+      <div class="trust-strip reveal-item">
+        <div class="trust-item">
+          <div class="trust-icon" style="color: #6366f1;"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <div class="trust-label">Sub-Second Response</div>
+            <div class="trust-sub">LCP &lt; 0.8s / 100 Lighthouse</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" style="color: #10b981;"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <div class="trust-label">Security & Hardened</div>
+            <div class="trust-sub">JWT, CSRF & Zero Secret Leakage</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" style="color: #06b6d4;"><i class="fa-solid fa-code-commit"></i></div>
+          <div>
+            <div class="trust-label">Clean Git Architectures</div>
+            <div class="trust-sub">CI/CD Automated Pipelines</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" style="color: #f59e0b;"><i class="fa-solid fa-palette"></i></div>
+          <div>
+            <div class="trust-label">OLED Luxury Aesthetic</div>
+            <div class="trust-sub">High-End Bespoke Dark Themes</div>
+          </div>
         </div>
       </div>
     </section>
@@ -356,6 +394,86 @@
       </div>
     </section>
 
+    <!-- NEW CLIENT CONVERSION FEATURE: Interactive Scope & Budget Estimator -->
+    <section id="estimator" class="reveal-item" style="padding-top: 40px;">
+      <div class="section-header">
+        <span class="section-tag mono" style="color: var(--emerald);">// CLIENT CONSULTATION TOOL</span>
+        <h2 class="section-title">Interactive Project Scope & Architecture Estimator</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
+          Select your product scope, timeline and engineering add-ons to generate a live architecture quote.
+        </p>
+      </div>
+
+      <div class="estimator-card">
+        <div class="estimate-grid">
+          <!-- Selection Controls -->
+          <div>
+            <div class="estimate-option-group">
+              <span class="mono" style="font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em;">1. Platform Category</span>
+              <div class="estimate-pills">
+                <button class="est-pill" data-group="scope" data-val="landing"><i class="fa-solid fa-desktop"></i> Landing Page</button>
+                <button class="est-pill" data-group="scope" data-val="webapp"><i class="fa-solid fa-cubes"></i> React / Web App</button>
+                <button class="est-pill active" data-group="scope" data-val="fullstack"><i class="fa-solid fa-layer-group"></i> Next.js 15 Full-Stack</button>
+                <button class="est-pill" data-group="scope" data-val="cms"><i class="fa-solid fa-pen-ruler"></i> Headless CMS</button>
+              </div>
+            </div>
+
+            <div class="estimate-option-group">
+              <span class="mono" style="font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em;">2. Delivery Timeline</span>
+              <div class="estimate-pills">
+                <button class="est-pill" data-group="timeline" data-val="flex"><i class="fa-regular fa-calendar"></i> Flexible (-10%)</button>
+                <button class="est-pill active" data-group="timeline" data-val="standard"><i class="fa-solid fa-clock"></i> Standard Track</button>
+                <button class="est-pill" data-group="timeline" data-val="rush"><i class="fa-solid fa-bolt"></i> Expedited Rush (+35%)</button>
+              </div>
+            </div>
+
+            <div class="estimate-option-group">
+              <span class="mono" style="font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em;">3. Architecture Add-Ons</span>
+              <div class="estimate-pills">
+                <button class="est-pill active" data-group="addon" data-val="seo"><i class="fa-solid fa-magnifying-glass"></i> Technical SEO / AEO</button>
+                <button class="est-pill" data-group="addon" data-val="sound"><i class="fa-solid fa-volume-high"></i> Web Audio Feedback</button>
+                <button class="est-pill" data-group="addon" data-val="pwa"><i class="fa-solid fa-mobile-screen"></i> PWA & Offline Workers</button>
+                <button class="est-pill" data-group="addon" data-val="motion"><i class="fa-solid fa-wand-magic-sparkles"></i> High-Fidelity 3D Canvas</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Receipt & Handoff -->
+          <div class="estimate-receipt">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px; margin-bottom: 14px;">
+                <span class="mono" style="font-size: 13px; font-weight: 700; color: #fff;">ESTIMATION BREAKDOWN</span>
+                <span class="status-pill mono" style="font-size: 10px; padding: 2px 8px;">VERIFIED 2026</span>
+              </div>
+
+              <div class="receipt-row">
+                <span style="color: var(--text-muted);">Architecture:</span>
+                <span id="estScopeLabel" class="mono" style="color: #fff; font-weight: 700;">FULLSTACK</span>
+              </div>
+              <div class="receipt-row">
+                <span style="color: var(--text-muted);">Delivery Window:</span>
+                <span id="estTimelineDays" class="mono" style="color: #38bdf8; font-weight: 700;">3-4 Weeks</span>
+              </div>
+              <div class="receipt-row">
+                <span style="color: var(--text-muted);">SLA & Guarantees:</span>
+                <span class="mono" style="color: #10b981; font-weight: 700;">100% Milestone Handover</span>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+              <div class="receipt-total">
+                <span style="color: var(--text-muted); font-size: 13px;">Estimated Budget:</span>
+                <span id="estFinalPrice" class="mono" style="font-size: 26px; font-weight: 800; color: #10b981;">$4,850</span>
+              </div>
+              <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="openContactModal();">
+                <i class="fa-solid fa-file-contract"></i> Reserve Consultation Slot
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Skills Matrix Section -->
     <section class="reveal-item" style="padding: 40px 0 80px;">
       <div class="section-header">
@@ -410,6 +528,10 @@
         <div class="cmd-item" onclick="runCmd('projects')">
           <span><i class="fa-solid fa-layer-group" style="width: 20px; color: var(--accent);"></i> Explore Projects</span>
           <span class="mono" style="font-size: 11px; color: var(--text-dim);">Jump</span>
+        </div>
+        <div class="cmd-item" onclick="runCmd('estimator')">
+          <span><i class="fa-solid fa-calculator" style="width: 20px; color: var(--emerald);"></i> Project Scope Estimator</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Pricing</span>
         </div>
         <div class="cmd-item" onclick="runCmd('brew')">
           <span><i class="fa-solid fa-mug-hot" style="width: 20px; color: var(--amber);"></i> DUN Coffee Brew Lab</span>

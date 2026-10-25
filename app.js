@@ -205,11 +205,11 @@ function renderProjects(category = 'all', searchQuery = '') {
           <button class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="openProjectModal('${p.id}'); if(window.Sound)Sound.playClick();">
             <i class="fa-solid fa-circle-info"></i> Architecture
           </button>
-          <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-primary" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
-          </a>
-          <a href="${p.githubUrl}" target="_blank" class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
-            <i class="fa-brands fa-github"></i> Code
+          <button class="btn-primary" style="font-size: 12px; padding: 7px 14px;" onclick="openLiveViewModal('${p.liveUrl}', '${p.title.replace(/'/g, "\\\\'")}'); if(window.Sound)Sound.playClick();">
+            <i class="fa-solid fa-play"></i> Quick Preview
+          </button>
+          <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> New Tab ↗
           </a>
         </div>
       </div>
@@ -247,6 +247,7 @@ function initSearch() {
 
 // 9. Interactive Component Sandbox
 function initComponentSandbox() {
+  initProjectEstimator();
   const presetSelect = document.getElementById('sandboxPreset');
   const glowSlider = document.getElementById('sandboxGlow');
   const blurSlider = document.getElementById('sandboxBlur');
@@ -280,6 +281,76 @@ function initComponentSandbox() {
   if (glowSlider) glowSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
   if (blurSlider) blurSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
   if (radiusSlider) radiusSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
+  update();
+}
+
+// 9.1 Interactive Project Budget & Architecture Estimator
+function initProjectEstimator() {
+  const container = document.getElementById('estimator');
+  if (!container) return;
+
+  const state = {
+    scope: 'fullstack',
+    timeline: 'standard',
+    addons: new Set(['seo'])
+  };
+
+  const prices = {
+    scope: { landing: 1200, webapp: 2800, fullstack: 4500, cms: 3600 },
+    timeline: { standard: 1.0, rush: 1.35, flex: 0.9 },
+    addons: {
+      seo: 350,
+      sound: 250,
+      pwa: 600,
+      motion: 500
+    }
+  };
+
+  const days = {
+    scope: { landing: '5-7 Days', webapp: '14-21 Days', fullstack: '3-4 Weeks', cms: '2-3 Weeks' }
+  };
+
+  function update() {
+    let base = prices.scope[state.scope] || 2500;
+    let addSum = 0;
+    state.addons.forEach(a => { addSum += (prices.addons[a] || 0); });
+    
+    let subtotal = (base + addSum) * (prices.timeline[state.timeline] || 1.0);
+    let finalEst = Math.round(subtotal);
+
+    const targetEst = document.getElementById('estFinalPrice');
+    const targetDays = document.getElementById('estTimelineDays');
+    const targetScope = document.getElementById('estScopeLabel');
+    if (targetEst) targetEst.textContent = '$' + finalEst.toLocaleString();
+    if (targetDays) targetDays.textContent = days.scope[state.scope];
+    if (targetScope) targetScope.textContent = state.scope.toUpperCase();
+  }
+
+  // Bind clicks
+  container.querySelectorAll('.est-pill[data-group]').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const group = pill.getAttribute('data-group');
+      const val = pill.getAttribute('data-val');
+
+      if (group === 'addon') {
+        if (state.addons.has(val)) {
+          state.addons.delete(val);
+          pill.classList.remove('active');
+        } else {
+          state.addons.add(val);
+          pill.classList.add('active');
+        }
+      } else {
+        container.querySelectorAll(`.est-pill[data-group="${group}"]`).forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        state[group] = val;
+      }
+
+      if (window.Sound) Sound.playClick();
+      update();
+    });
+  });
+
   update();
 }
 
@@ -407,6 +478,25 @@ function initCommandPalette() {
   input.addEventListener('input', (e) => {
     filterCommands(e.target.value.toLowerCase().trim());
   });
+
+  const cmdList = document.getElementById('cmdList');
+  if (cmdList) {
+    cmdList.innerHTML += `
+      <div class="cmd-group-title">Interactive Live Apps</div>
+      <div class="cmd-item" onclick="openLiveViewModal('demos/webdev-learning-hub/index.html', 'WebDev Master Learning Hub')">
+        <span><i class="fa-solid fa-code" style="width: 20px; color: #10b981;"></i> Launch WebDev Hub</span>
+        <span class="mono" style="font-size: 11px; color: var(--text-dim);">Live App</span>
+      </div>
+      <div class="cmd-item" onclick="openLiveViewModal('demos/barg-reader/index.html', 'Barg Reader App')">
+        <span><i class="fa-solid fa-book-open" style="width: 20px; color: #06b6d4;"></i> Launch Barg Reader</span>
+        <span class="mono" style="font-size: 11px; color: var(--text-dim);">Live App</span>
+      </div>
+      <div class="cmd-item" onclick="openLiveViewModal('demos/parsa-sports/index.html', 'Parsa Sports Store')">
+        <span><i class="fa-solid fa-cart-shopping" style="width: 20px; color: #ec4899;"></i> Launch Parsa Sports</span>
+        <span class="mono" style="font-size: 11px; color: var(--text-dim);">Live App</span>
+      </div>
+    `;
+  }
 }
 
 function filterCommands(q) {
@@ -422,6 +512,9 @@ function runCmd(action) {
   if (overlay) overlay.classList.remove('open');
 
   switch (action) {
+    case 'estimator':
+      document.getElementById('estimator')?.scrollIntoView({ behavior: 'smooth' });
+      break;
     case 'projects':
       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
       break;
@@ -565,7 +658,7 @@ function executeCommand(cmd, print) {
   }
 }
 
-// 13. Project Modal
+// 13. Project Architecture Modal
 function openProjectModal(id) {
   const p = PROJECTS_DATA.find(x => x.id === id);
   if (!p) return;
@@ -599,11 +692,11 @@ function openProjectModal(id) {
     </div>
 
     <div style="display: flex; gap: 12px; justify-content: flex-end;">
-      <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-primary" onclick="if(window.Sound)Sound.playClick();">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Deployment
-      </a>
-      <a href="${p.githubUrl}" target="_blank" class="btn-outline" onclick="if(window.Sound)Sound.playClick();">
-        <i class="fa-brands fa-github"></i> Source Repository
+      <button class="btn-primary" onclick="closeProjectModal(); openLiveViewModal('${p.liveUrl}', '${p.title.replace(/'/g, "\\\\'")}');">
+        <i class="fa-solid fa-play"></i> Launch Inside Modal
+      </button>
+      <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-outline" onclick="if(window.Sound)Sound.playClick();">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open In New Tab
       </a>
     </div>
   `;
@@ -613,6 +706,57 @@ function openProjectModal(id) {
 
 function closeProjectModal() {
   document.getElementById('projectModalOverlay')?.classList.remove('open');
+  if (window.Sound) Sound.playClick();
+}
+
+// 13.1 Instant In-App Live Modal Preview
+function openLiveViewModal(url, title) {
+  let modal = document.getElementById('liveViewModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'liveViewModal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-box modal-live-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="status-dot"></span>
+            <span id="liveViewTitle" class="mono" style="font-size: 13.5px; font-weight: 700; color: #fff;">Live Preview</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <a id="liveViewNewTabBtn" href="#" target="_blank" class="btn-outline mono" style="font-size: 12px; padding: 5px 12px;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab
+            </a>
+            <button class="btn-icon" style="width: 32px; height: 32px;" onclick="closeLiveViewModal();">&times;</button>
+          </div>
+        </div>
+        <div class="live-frame-container">
+          <iframe id="liveViewIframe" src="" loading="lazy"></iframe>
+        </div>
+      </div>
+    `;
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeLiveViewModal();
+    });
+    document.body.appendChild(modal);
+  }
+
+  document.getElementById('liveViewTitle').textContent = 'Live Production App — ' + title;
+  document.getElementById('liveViewNewTabBtn').href = url;
+  const iframe = document.getElementById('liveViewIframe');
+  iframe.src = url;
+
+  modal.classList.add('open');
+  if (window.Sound) Sound.playSuccess();
+}
+
+function closeLiveViewModal() {
+  const modal = document.getElementById('liveViewModal');
+  if (modal) {
+    modal.classList.remove('open');
+    const iframe = document.getElementById('liveViewIframe');
+    if (iframe) iframe.src = '';
+  }
   if (window.Sound) Sound.playClick();
 }
 
