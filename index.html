@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
+  <title>Erfan Mehdi Sadeghi — Front-End Developer & UI/UX Architect</title>
+  <meta name="description" content="Portfolio of Erfan Mehdi Sadeghi. Senior Front-End Developer specializing in Next.js, React, Tailwind CSS, TypeScript, and high-performance dark mode web applications.">
+  <meta name="keywords" content="Erfan Mehdi Sadeghi, Front-End Developer, React, Next.js, Tailwind CSS, UI UX Architect, JavaScript">
+  <meta name="author" content="Erfan Mehdi Sadeghi">
+  <link rel="canonical" href="https://erfan-portfolio.vercel.app">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Erfan Mehdi Sadeghi — Front-End Developer & UI/UX Architect">
+  <meta property="og:description" content="Explore production web applications, headless CMS architectures, and interactive digital experiences.">
+  <meta property="og:url" content="https://erfan-portfolio.vercel.app">
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand-badge" onmouseenter="Sound.playHover()">
+        <div class="brand-icon">E</div>
+        <div>
+          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">ERFAN.DEV</div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">UI/UX ARCHITECT</div>
+        </div>
+      </a>
+
+      <div class="status-pill mono">
+        <span class="status-dot"></span>
+        <span id="liveClock">00:00:00 UTC</span>
+      </div>
+
+      <div class="nav-actions">
+        <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound Feedback">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <a href="https://github.com/erfandarrudi527-gif" target="_blank" class="btn-icon" title="GitHub Profile" onmouseenter="Sound.playHover()">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://t.me/erfan_sadeghi" target="_blank" class="btn-icon" title="Telegram" onmouseenter="Sound.playHover()">
+          <i class="fa-brands fa-telegram"></i>
+        </a>
+        <button id="openContactBtn" class="btn-primary" onmouseenter="Sound.playHover()">
+          <i class="fa-regular fa-paper-plane"></i> Contact
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-meta">
+        <span class="badge-version mono">PRODUCTION DEPLOYMENT // 2026</span>
+        <span class="mono" style="font-size: 12px; color: var(--emerald);">
+          <i class="fa-solid fa-circle-check"></i> ALL SYSTEMS NOMINAL
+        </span>
+      </div>
+
+      <h1 class="hero-title">
+        Crafting Resilient <br>
+        <span class="gradient-text">Web Experiences</span> & Systems.
+      </h1>
+
+      <p class="hero-sub">
+        I am <strong>Erfan Mehdi Sadeghi</strong>, a Front-End Developer & UI/UX Architect focused on 
+        building scalable applications with <strong>Next.js</strong>, <strong>React</strong>, 
+        and <strong>Tailwind CSS</strong>. Strict dark mode engineering, zero bloat, and sub-second rendering.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary" onclick="Sound.playClick();">
+          <i class="fa-solid fa-layer-group"></i> Explore Projects
+        </a>
+        <a href="#terminal" class="btn-outline mono" onclick="Sound.playClick();">
+          <i class="fa-solid fa-terminal"></i> Launch Terminal
+        </a>
+        <a href="#brew-lab-section" class="btn-outline mono" onclick="Sound.playClick();">
+          <i class="fa-solid fa-mug-hot"></i> DUN Brew Lab
+        </a>
+      </div>
+
+      <!-- Live Metric Grid -->
+      <div class="stats-grid">
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <div class="stat-value">10+</div>
+          <div class="stat-label">Production Projects</div>
+        </div>
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <div class="stat-value">&lt; 100ms</div>
+          <div class="stat-label">Edge Response Time</div>
+        </div>
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">OLED Dark Fidelity</div>
+        </div>
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <div class="stat-value">7 Core</div>
+          <div class="stat-label">Verified Tech Stack</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" style="padding-top: 30px;">
+      <div class="section-header">
+        <span class="section-tag mono">// SHOWCASE</span>
+        <h2 class="section-title">Verified Production Projects</h2>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-pills mono">
+          <button class="filter-pill active" data-cat="all">ALL (10)</button>
+          <button class="filter-pill" data-cat="web-apps">WEB APPS</button>
+          <button class="filter-pill" data-cat="ecommerce">E-COMMERCE</button>
+          <button class="filter-pill" data-cat="mobile">MOBILE & PWA</button>
+          <button class="filter-pill" data-cat="tools">DEV TOOLS</button>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color: var(--text-dim); font-size: 12px;"></i>
+          <input type="text" id="projectSearchInput" placeholder="Filter by keyword or stack...">
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Rendered dynamically from projects.js -->
+      </div>
+    </section>
+
+    <!-- DUN Brew Lab Interactive Section -->
+    <section id="brew-lab-section" style="padding-top: 40px;">
+      <div class="section-header">
+        <span class="section-tag mono" style="color: #d97706;">// INTERACTIVE LAB</span>
+        <h2 class="section-title">DUN Specialty Coffee & Extraction Lab</h2>
+      </div>
+
+      <div class="lab-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <span class="mono" style="font-size: 11px; color: #d97706; letter-spacing: 0.1em;">PITCH ESPRESSO LAB #020101</span>
+            <h3 style="font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px;">Interactive Brew Yield Calculator</h3>
+          </div>
+          <span class="card-badge mono" style="color: #d97706; border-color: #d97706;">ZERO-LATENCY ENGINE</span>
+        </div>
+
+        <div class="lab-grid">
+          <!-- Controls -->
+          <div>
+            <div class="lab-control-group">
+              <label>
+                <span>EXTRACTION METHOD</span>
+              </label>
+              <select id="brewMethod" style="width: 100%; background: #120b08; color: #f59e0b; border: 1px solid #332219; padding: 10px; border-radius: 8px; font-family: var(--font-mono); outline: none;">
+                <option value="v60">Hario V60 (Pour-Over)</option>
+                <option value="chemex">Chemex (Heavy Filter)</option>
+                <option value="aeropress">AeroPress (Inverted)</option>
+                <option value="frenchpress">French Press (Immersion)</option>
+              </select>
+            </div>
+
+            <div class="lab-control-group">
+              <label>
+                <span>COFFEE DOSE</span>
+                <span id="dispDose" style="color: #fff;">18g</span>
+              </label>
+              <input type="range" id="brewDose" min="12" max="36" value="18" step="1" class="lab-slider">
+            </div>
+
+            <div class="lab-control-group">
+              <label>
+                <span>WATER RATIO</span>
+                <span id="dispRatio" style="color: #fff;">1:16</span>
+              </label>
+              <input type="range" id="brewRatio" min="14" max="18" value="16" step="0.5" class="lab-slider">
+            </div>
+          </div>
+
+          <!-- Real-time outputs -->
+          <div class="lab-results">
+            <div class="lab-result-row">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Target Water Volume:</span>
+              <span id="resWater" class="lab-result-val">288 ml</span>
+            </div>
+            <div class="lab-result-row">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Bloom Stage (45s):</span>
+              <span id="resBloom" class="lab-result-val">45 ml</span>
+            </div>
+            <div class="lab-result-row">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Subsequent Pours:</span>
+              <span id="resPours" class="lab-result-val">146 ml / 97 ml</span>
+            </div>
+            <div class="lab-result-row">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Recommended Grind:</span>
+              <span id="resGrind" class="lab-result-val" style="font-size: 13px;">Medium-Fine (550-650 µm)</span>
+            </div>
+            <div class="lab-result-row" style="border-bottom: none;">
+              <span class="mono" style="font-size: 12px; color: #a8a29e;">Target Extraction Window:</span>
+              <span id="resTime" class="lab-result-val">2:30 - 3:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Terminal Section -->
+    <section id="terminal" style="padding-top: 40px;">
+      <div class="section-header">
+        <span class="section-tag mono">// SHELL INTERFACE</span>
+        <h2 class="section-title">Developer Console & Command Center</h2>
+      </div>
+
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="tdot tdot-red"></span>
+            <span class="tdot tdot-yellow"></span>
+            <span class="tdot tdot-green"></span>
+          </div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">visitor@erfan-dev:~ (zsh)</div>
+          <div class="mono" style="font-size: 11px; color: var(--emerald);">● CONNECTED</div>
+        </div>
+
+        <div class="terminal-body" id="termOutput">
+          <div class="term-line" style="color: #6366f1;">
+            ╔════════════════════════════════════════════════════════════════╗<br>
+            ║ ERFAN MEHDI SADEGHI — INTERACTIVE PORTFOLIO OS v3.8            ║<br>
+            ║ Type 'help' to inspect available system commands.              ║<br>
+            ╚════════════════════════════════════════════════════════════════╝
+          </div>
+          <div class="term-line" style="color: var(--text-dim);">
+            Type <span style="color: #38bdf8;">'projects'</span> to list repositories, or <span style="color: #38bdf8;">'brew'</span> to calibrate coffee.
+          </div>
+        </div>
+
+        <div class="terminal-header" style="border-top: 1px solid var(--border-subtle); border-bottom: none; background: #07090f;">
+          <div class="terminal-input-row" style="margin-top: 0; width: 100%;">
+            <span class="term-prompt mono">visitor@erfan-os:~$</span>
+            <input type="text" id="termInput" class="term-input" placeholder="type 'help', 'projects', 'skills'..." autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Matrix Section -->
+    <section style="padding: 40px 0 80px;">
+      <div class="section-header">
+        <span class="section-tag mono">// COMPETENCY</span>
+        <h2 class="section-title">Canonical Frontend Pillars</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <h4 class="mono" style="font-size: 14px; color: var(--accent); margin-bottom: 12px;">Core Web Technologies</h4>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+            HTML5, Semantic Standards, Modern CSS3, Flexbox, CSS Grid, Custom Properties, Responsive Architecture, Bi-directional Observers.
+          </p>
+        </div>
+
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <h4 class="mono" style="font-size: 14px; color: var(--cyan); margin-bottom: 12px;">Modern Frameworks</h4>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+            React 19, Next.js 15 (App Router, Server Components, Server Actions), Tailwind CSS v4, TypeScript, Vite.
+          </p>
+        </div>
+
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <h4 class="mono" style="font-size: 14px; color: var(--emerald); margin-bottom: 12px;">CMS & Systems</h4>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+            WordPress Theme Engineering, Elementor Custom Widgets, Headless CMS Integration (Prisma, PostgreSQL, TipTap).
+          </p>
+        </div>
+
+        <div class="stat-card" onmouseenter="Sound.playHover()">
+          <h4 class="mono" style="font-size: 14px; color: var(--amber); margin-bottom: 12px;">Tooling & Deployment</h4>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+            Git, GitHub CI/CD Actions, Vercel Edge Serverless, PWA Service Workers, Android APK Toolchains.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Project Architecture Modal -->
+  <div class="modal-overlay" id="projectModalOverlay" onclick="if(event.target === this) closeProjectModal();">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeProjectModal();">&times;</button>
+      <div id="projectModalBody">
+        <!-- Injected via openProjectModal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contactModalOverlay" onclick="if(event.target === this) closeContactModal();">
+    <div class="modal-box">
+      <button class="modal-close" id="closeContactBtn">&times;</button>
+      <div style="margin-bottom: 20px;">
+        <span class="section-tag mono">// DIRECT REACH</span>
+        <h3 style="font-size: 22px; font-weight: 800; margin-top: 4px;">Initiate Contact & Commission</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+          Available for senior frontend development contracts, design system engineering, and web architecture advisory.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+        <button class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="copyText('erfandarrudi527@gmail.com', 'Email copied to clipboard!');">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-regular fa-envelope" style="color: var(--accent);"></i>
+            <span class="mono" style="font-size: 13px;">erfandarrudi527@gmail.com</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);"><i class="fa-regular fa-copy"></i> Copy</span>
+        </button>
+
+        <a href="https://t.me/erfan_sadeghi" target="_blank" class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="Sound.playClick();">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-brands fa-telegram" style="color: #38bdf8;"></i>
+            <span class="mono" style="font-size: 13px;">Telegram Direct</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Chat ↗</span>
+        </a>
+
+        <a href="https://github.com/erfandarrudi527-gif" target="_blank" class="btn-outline" style="justify-content: space-between; padding: 12px 16px;" onclick="Sound.playClick();">
+          <span style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-brands fa-github" style="color: #cbd5e1;"></i>
+            <span class="mono" style="font-size: 13px;">GitHub Repositories</span>
+          </span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">Follow ↗</span>
+        </a>
+      </div>
+
+      <div style="text-align: right;">
+        <button class="btn-primary" onclick="closeContactModal();">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="mono">
+        &copy; 2026 ERFAN MEHDI SADEGHI. ALL RIGHTS RESERVED.
+      </div>
+      <div class="mono" style="display: flex; gap: 16px;">
+        <span>DEPLOYED ON VERCEL EDGE</span>
+        <span>LATENCY: 12ms</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="projects.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
