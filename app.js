@@ -205,15 +205,12 @@ function renderProjects(category = 'all', searchQuery = '') {
           <button class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="openProjectModal('${p.id}'); if(window.Sound)Sound.playClick();">
             <i class="fa-solid fa-circle-info"></i> Architecture
           </button>
-          ${p.liveUrl && p.liveUrl !== '#' && !p.liveUrl.startsWith('https://github.com') ? `
-            <a href="${p.liveUrl}" ${p.liveUrl.endsWith('.html') ? '' : 'target="_blank"'} class="btn-primary" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
-            </a>
-          ` : `
-            <a href="${p.githubUrl}" target="_blank" class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
-              <i class="fa-brands fa-github"></i> Repository
-            </a>
-          `}
+          <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-primary" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+          </a>
+          <a href="${p.githubUrl}" target="_blank" class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
+            <i class="fa-brands fa-github"></i> Code
+          </a>
         </div>
       </div>
     </article>
@@ -602,11 +599,9 @@ function openProjectModal(id) {
     </div>
 
     <div style="display: flex; gap: 12px; justify-content: flex-end;">
-      ${p.liveUrl && p.liveUrl !== '#' && !p.liveUrl.startsWith('https://github.com') ? `
-        <a href="${p.liveUrl}" ${p.liveUrl.endsWith('.html') ? '' : 'target="_blank"'} class="btn-primary" onclick="if(window.Sound)Sound.playClick();">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Deployment
-        </a>
-      ` : ''}
+      <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') || p.liveUrl.includes('demos/') ? 'target="_blank"' : ''} class="btn-primary" onclick="if(window.Sound)Sound.playClick();">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Deployment
+      </a>
       <a href="${p.githubUrl}" target="_blank" class="btn-outline" onclick="if(window.Sound)Sound.playClick();">
         <i class="fa-brands fa-github"></i> Source Repository
       </a>

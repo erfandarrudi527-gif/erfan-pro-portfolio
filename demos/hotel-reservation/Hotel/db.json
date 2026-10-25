@@ -1,0 +1,99 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-41.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "93"
+    },
+    {
+      "id": 2,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-52.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "83"
+    },
+    {
+      "id": 3,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-56.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "85"
+    },
+    {
+      "id": 4,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-59.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "89"
+    },
+    {
+      "id": 5,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-62.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "100"
+    },
+    {
+      "id": 6,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-71.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "81"
+    },
+    {
+      "id": 7,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-73.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "56"
+    },
+    {
+      "id": 8,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-75.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "90"
+    },
+    {
+      "id": 8,
+      "image": "/Hotel/assets/image/Mashhad-Almas_2-78.webp",
+      "roomName": "اتاق 4 نفره",
+      "price": "2,000,000",
+      "like": "99"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "username": "ali",
+      "like": 5,
+      "description": "اقامت دل‌انگیز و آرامی داشتیم؛ اتاق‌ها تمیز بودن و کارکنان خیلی خوش‌برخورد. تنها ایرادش تنوع کم صبحانه بود."
+    },
+    {
+      "id": 2,
+      "username": "unknown",
+      "like": 2,
+      "description": "هتل موقعیت فوق‌العاده‌ای داره، به مراکز خرید نزدیکه، نظافتش خوبه، ولی اتاق‌ ما کمی کوچک بود"
+    },
+    {
+      "id": 3,
+      "username": "mohammad",
+      "like": 3.5,
+      "description": "رفتار پرسنل عالی و برخوردشون محترمانه بود؛ امکانات اتاق خوب و تخت‌ها راحت بودن، ارزش اقامت داره"
+    },
+    {
+      "id": 4,
+      "username": "sajjad",
+      "like": 3,
+      "description": "هتل شیک و مرتب با فضای آرام؛ فقط سروصدای اتاق‌های مجاور کمی آزاردهنده بود، در مجموع اقامت خوبی بود"
+    },
+    {
+      "id": 5,
+      "username": "mobina",
+      "like": 5,
+      "description": "اقامت خانوادگی داشتیم، همه‌چیز طبق انتظار پیش رفت، پذیرش سریع و فضای لابی بسیار زیبا و دلنشین"
+    }
+  ]
+}

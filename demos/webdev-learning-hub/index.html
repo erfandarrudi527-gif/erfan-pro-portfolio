@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERFAN.DEV // Web Engineering Command Center</title>
+<style>
+@font-face {
+  font-family: 'IRANYekan';
+  src: url('fonts/IRANYekanXFaNum-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'IRANYekan';
+  src: url('fonts/IRANYekanXFaNum-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'IRANYekan';
+  src: url('fonts/IRANYekanXFaNum-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+:root {
+  --bg-deep: #020408;
+  --bg-card: rgba(10, 15, 24, 0.75);
+  --bg-card-hover: rgba(14, 22, 35, 0.9);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.2);
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --text-mute: #64748b;
+  --cyan: #06b6d4;
+  --sky: #38bdf8;
+  --emerald: #10b981;
+  --amber: #f59e0b;
+  --purple: #a855f7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IRANYekan', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 10% 90%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+  color: var(--text-main);
+  direction: rtl;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Master Top Bar */
+.master-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(2, 4, 8, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-gem {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+}
+.brand-title {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  color: #fff;
+}
+.live-runtime-pill {
+  font-family: monospace;
+  font-size: 10.5px;
+  color: var(--emerald);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 8px var(--emerald);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.cmd-center-trigger {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+  padding: 7px 18px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.cmd-center-trigger:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-highlight);
+  color: #fff;
+}
+.kbd-badge {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-mute);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-family: monospace;
+}
+
+/* Hero Section */
+.hero-box {
+  max-width: 1320px;
+  margin: 36px auto 24px;
+  padding: 0 24px;
+  text-align: center;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.hero-main-title {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  line-height: 1.25;
+  margin-bottom: 12px;
+  background: linear-gradient(180deg, #ffffff 10%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 720px;
+  margin: 0 auto 32px;
+  line-height: 1.85;
+}
+
+/* Linear Telemetry Strip (HUD) */
+.telemetry-strip {
+  max-width: 1320px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  width: 100%;
+}
+.hud-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: rgba(8, 12, 20, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+.hud-item {
+  padding: 14px 22px;
+  border-left: 1px solid var(--border-subtle);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hud-item:last-child {
+  border-left: none;
+}
+.hud-tag {
+  font-family: monospace;
+  font-size: 10.5px;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hud-val {
+  font-family: 'Fira Code', monospace;
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+/* Grid of 5 Modules */
+.modules-grid {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1100px) {
+  .modules-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .modules-grid { grid-template-columns: 1fr; }
+}
+
+/* The High Craft Module Card */
+.module-card {
+  position: relative;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7);
+}
+.module-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.9), 0 0 25px -5px rgba(56, 189, 248, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Specular Rim Light */
+.rim-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.module-card:hover .rim-light {
+  opacity: 1;
+}
+
+.card-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.module-meta-code {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--text-mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.module-units-badge {
+  font-family: monospace;
+  font-size: 10.5px;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+}
+
+.card-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.mod-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+}
+.mod-subtitle {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--sky);
+  margin-top: 2px;
+}
+.mod-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Specs / Feature Matrix */
+.spec-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 18px;
+}
+.spec-chip {
+  font-family: monospace;
+  font-size: 11px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* Segmented Laser Progress */
+.laser-progress-block {
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  margin-bottom: 16px;
+}
+.laser-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-bottom: 6px;
+}
+.laser-track {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 3px;
+  height: 5px;
+}
+.laser-segment {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  transition: all 0.25s;
+}
+.laser-segment.active {
+  background: var(--sky);
+  box-shadow: 0 0 6px var(--sky);
+}
+
+/* Card Bottom Actions */
+.card-actions-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 8px;
+}
+.btn-launch {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.btn-launch:hover {
+  background: #fff;
+  color: #020617;
+  border-color: #fff;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.3);
+}
+.btn-pdf-spec {
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 11px;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+.btn-pdf-spec:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Command Palette Overlay */
+.cmd-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+}
+.cmd-modal-backdrop.open { display: flex; }
+.cmd-box {
+  width: 100%;
+  max-width: 640px;
+  background: #090e17;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+}
+.cmd-input {
+  width: 100%;
+  padding: 18px 22px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+}
+.cmd-list {
+  max-height: 380px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 8px;
+}
+.cmd-item {
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: 0.12s;
+}
+.cmd-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.cmd-item-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+}
+.cmd-item-badge {
+  font-family: monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-dim);
+}
+</style>
+</head>
+<body>
+
+<header class="master-bar">
+  <div class="brand-section">
+    <div class="brand-gem">⚡</div>
+    <div>
+      <span class="brand-title">ERFAN.DEV</span>
+    </div>
+    <div class="live-runtime-pill">
+      <span class="status-dot"></span>
+      <span>5 RUNTIMES ACTIVE</span>
+    </div>
+  </div>
+
+  <button class="cmd-center-trigger" onclick="openCmd()">
+    <span>🔍 جستجو در ۲۶۵ سرفصل، آزمون‌ها و پروژه‌ها...</span>
+    <span class="kbd-badge">⌘K / Ctrl+K</span>
+  </button>
+</header>
+
+<section class="hero-box">
+  <div class="hero-eyebrow">
+    <span>SYSTEM CORE // V3.8 HIGH DENSITY</span>
+  </div>
+  <h1 class="hero-main-title">مرکز فرماندهی مهندسی وب</h1>
+  <p class="hero-sub">
+    دانشنامه تخصصی فرانت‌اند: کالبدشکافی عمیق مفاهیم، پروژه‌های جامع پروداکشن با تحلیل خط به خط، آزمون‌های مرحله‌ای سنجش مهارت، و حل تشریحی مسائل ۳ سطحی.
+  </p>
+</section>
+
+<!-- Master Feature Highlights -->
+<section style="max-width:1320px; margin:0 auto 28px; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px;">
+  <div style="background:linear-gradient(135deg, rgba(56,189,248,0.08) 0%, rgba(2,6,23,0.85) 100%); border:1px solid rgba(56,189,248,0.25); border-radius:14px; padding:18px 22px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+    <div>
+      <span style="font-size:11px; font-weight:800; color:#38bdf8; background:rgba(56,189,248,0.12); padding:2px 8px; border-radius:4px;">NEW PRODUCTION SUITE</span>
+      <h3 style="font-size:16px; font-weight:900; color:#fff; margin:6px 0 3px;">پروژه‌های جامع با کالبدشکافی خط به خط</h3>
+      <p style="font-size:12.5px; color:#94a3b8; margin:0;">در هر ۵ حوزه یک وب‌سایت تجاری کامل با شرح دقیق نقش و کارکرد تک‌تک خطوط کد پیاده‌سازی شده است.</p>
+    </div>
+    <div style="font-size:32px;">🚀</div>
+  </div>
+  <div style="background:linear-gradient(135deg, rgba(168,85,247,0.08) 0%, rgba(2,6,23,0.85) 100%); border:1px solid rgba(168,85,247,0.25); border-radius:14px; padding:18px 22px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+    <div>
+      <span style="font-size:11px; font-weight:800; color:#c084fc; background:rgba(168,85,247,0.12); padding:2px 8px; border-radius:4px;">INTERACTIVE EXAMS</span>
+      <h3 style="font-size:16px; font-weight:900; color:#fff; margin:6px 0 3px;">آزمون‌های مرحله‌ای سنجش مهارت (۲۶ آزمون)</h3>
+      <p style="font-size:12.5px; color:#94a3b8; margin:0;">بعد از هر چند مبحث، آزمون‌های استاندارد با بازخورد آنی، تحلیل گزینه‌ها و ثبت نمره در کارنامه قرار دارد.</p>
+    </div>
+    <div style="font-size:32px;">🏆</div>
+  </div>
+</section>
+
+<!-- HUD Telemetry Strip -->
+<section class="telemetry-strip">
+  <div class="hud-inner">
+    <div class="hud-item">
+      <span class="hud-tag">TOTAL_NODES</span>
+      <span class="hud-val">۲۶۵</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-tag">COMPILED_TOPICS</span>
+      <span class="hud-val" id="hudCompleted">۰</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-tag">CODE_CHALLENGES</span>
+      <span class="hud-val">۷۹۵</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-tag">MASTERY_VECTOR</span>
+      <span class="hud-val" id="hudPct">۰.۰٪</span>
+    </div>
+  </div>
+</section>
+
+<!-- Modules Grid (5 Tracks) -->
+<main class="modules-grid">
+  <!-- HTML5 -->
+  <article class="module-card">
+    <div class="rim-light"></div>
+    <div>
+      <div class="card-header-top">
+        <span class="module-meta-code">MOD_01 // HTML5-SPEC</span>
+        <span class="module-units-badge">۳۵ سرفصل</span>
+      </div>
+      <div class="card-title-row">
+        <div>
+          <h2 class="mod-title">دانشنامه HTML5</h2>
+          <p class="mod-subtitle">Semantic AST & Forms</p>
+        </div>
+        <div class="mod-icon-box" style="color:#f97316;">🏛️</div>
+      </div>
+      <div class="spec-chips">
+        <span class="spec-chip">Semantic Tags</span>
+        <span class="spec-chip">Form Validation</span>
+        <span class="spec-chip">Lazy Loading</span>
+        <span class="spec-chip">Microdata</span>
+        <span class="spec-chip">A11y ARIA</span>
+      </div>
+    </div>
+    <div>
+      <div class="laser-progress-block">
+        <div class="laser-meta">
+          <span>PROGRESS</span>
+          <span id="laser-txt-html">0 / 35 (0%)</span>
+        </div>
+        <div class="laser-track" id="laser-track-html">
+          <!-- 15 ticks -->
+        </div>
+      </div>
+      <div class="card-actions-row" style="grid-template-columns: 2fr 1fr; margin-bottom: 6px;">
+        <a href="html/index.html" class="btn-launch" onclick="playAudioClick()">
+          <span>▶ ورود به دانشنامه</span>
+        </a>
+        <a href="html/HTML_Handbook.pdf" class="btn-pdf-spec" download>
+          <span>PDF 🡇</span>
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <a href="html/index.html#real-project-html" class="btn-pdf-spec" style="color:#38bdf8; border-color:rgba(56,189,248,0.25);" onclick="playAudioClick()">
+          <span>🚀 پروژه خط به خط</span>
+        </a>
+        <a href="html/index.html#exam-html-1" class="btn-pdf-spec" style="color:#c084fc; border-color:rgba(168,85,247,0.25);" onclick="playAudioClick()">
+          <span>🏆 آزمون‌ها (۴ مرحله)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- CSS3 -->
+  <article class="module-card">
+    <div class="rim-light"></div>
+    <div>
+      <div class="card-header-top">
+        <span class="module-meta-code">MOD_02 // CSS3-ENGINE</span>
+        <span class="module-units-badge">۶۲ سرفصل</span>
+      </div>
+      <div class="card-title-row">
+        <div>
+          <h2 class="mod-title">دانشنامه CSS3</h2>
+          <p class="mod-subtitle">Layout & GPU Motion</p>
+        </div>
+        <div class="mod-icon-box" style="color:#38bdf8;">🎨</div>
+      </div>
+      <div class="spec-chips">
+        <span class="spec-chip">Box Model</span>
+        <span class="spec-chip">Flexbox</span>
+        <span class="spec-chip">CSS Grid</span>
+        <span class="spec-chip">Subgrid</span>
+        <span class="spec-chip">@layer Cascade</span>
+        <span class="spec-chip">View Transitions</span>
+      </div>
+    </div>
+    <div>
+      <div class="laser-progress-block">
+        <div class="laser-meta">
+          <span>PROGRESS</span>
+          <span id="laser-txt-css">0 / 62 (0%)</span>
+        </div>
+        <div class="laser-track" id="laser-track-css">
+          <!-- 15 ticks -->
+        </div>
+      </div>
+      <div class="card-actions-row" style="grid-template-columns: 2fr 1fr; margin-bottom: 6px;">
+        <a href="css/index.html" class="btn-launch" onclick="playAudioClick()">
+          <span>▶ ورود به دانشنامه</span>
+        </a>
+        <a href="css/CSS_Handbook.pdf" class="btn-pdf-spec" download>
+          <span>PDF 🡇</span>
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <a href="css/index.html#real-project-css" class="btn-pdf-spec" style="color:#38bdf8; border-color:rgba(56,189,248,0.25);" onclick="playAudioClick()">
+          <span>🚀 پروژه خط به خط</span>
+        </a>
+        <a href="css/index.html#exam-css-1" class="btn-pdf-spec" style="color:#c084fc; border-color:rgba(168,85,247,0.25);" onclick="playAudioClick()">
+          <span>🏆 آزمون‌ها (۶ مرحله)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- JavaScript -->
+  <article class="module-card">
+    <div class="rim-light"></div>
+    <div>
+      <div class="card-header-top">
+        <span class="module-meta-code">MOD_03 // JS-RUNTIME</span>
+        <span class="module-units-badge">۷۵ سرفصل</span>
+      </div>
+      <div class="card-title-row">
+        <div>
+          <h2 class="mod-title">دانشنامه JavaScript</h2>
+          <p class="mod-subtitle">ECMA-262 & V8 Core</p>
+        </div>
+        <div class="mod-icon-box" style="color:#facc15;">⚡</div>
+      </div>
+      <div class="spec-chips">
+        <span class="spec-chip">Event Loop</span>
+        <span class="spec-chip">Closures</span>
+        <span class="spec-chip">Promises & Async</span>
+        <span class="spec-chip">Web Workers</span>
+        <span class="spec-chip">Memory Profiling</span>
+      </div>
+    </div>
+    <div>
+      <div class="laser-progress-block">
+        <div class="laser-meta">
+          <span>PROGRESS</span>
+          <span id="laser-txt-javascript">0 / 75 (0%)</span>
+        </div>
+        <div class="laser-track" id="laser-track-javascript">
+          <!-- 15 ticks -->
+        </div>
+      </div>
+      <div class="card-actions-row" style="grid-template-columns: 2fr 1fr; margin-bottom: 6px;">
+        <a href="javascript/index.html" class="btn-launch" onclick="playAudioClick()">
+          <span>▶ ورود به دانشنامه</span>
+        </a>
+        <a href="javascript/JavaScript_Handbook.pdf" class="btn-pdf-spec" download>
+          <span>PDF 🡇</span>
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <a href="javascript/index.html#real-project-javascript" class="btn-pdf-spec" style="color:#38bdf8; border-color:rgba(56,189,248,0.25);" onclick="playAudioClick()">
+          <span>🚀 پروژه خط به خط</span>
+        </a>
+        <a href="javascript/index.html#exam-js-1" class="btn-pdf-spec" style="color:#c084fc; border-color:rgba(168,85,247,0.25);" onclick="playAudioClick()">
+          <span>🏆 آزمون‌ها (۷ مرحله)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- React -->
+  <article class="module-card">
+    <div class="rim-light"></div>
+    <div>
+      <div class="card-header-top">
+        <span class="module-meta-code">MOD_04 // REACT-ECO</span>
+        <span class="module-units-badge">۶۵ سرفصل + FSD</span>
+      </div>
+      <div class="card-title-row">
+        <div>
+          <h2 class="mod-title">دانشنامه React</h2>
+          <p class="mod-subtitle">Fiber & State Systems</p>
+        </div>
+        <div class="mod-icon-box" style="color:#06b6d4;">⚛️</div>
+      </div>
+      <div class="spec-chips">
+        <span class="spec-chip">Hooks Lifecycle</span>
+        <span class="spec-chip">Zustand</span>
+        <span class="spec-chip">TanStack Query</span>
+        <span class="spec-chip">React 19 Actions</span>
+        <span class="spec-chip">FSD Architecture</span>
+      </div>
+    </div>
+    <div>
+      <div class="laser-progress-block">
+        <div class="laser-meta">
+          <span>PROGRESS</span>
+          <span id="laser-txt-react">0 / 65 (0%)</span>
+        </div>
+        <div class="laser-track" id="laser-track-react">
+          <!-- 15 ticks -->
+        </div>
+      </div>
+      <div class="card-actions-row" style="grid-template-columns: 2fr 1fr; margin-bottom: 6px;">
+        <a href="react/index.html" class="btn-launch" onclick="playAudioClick()">
+          <span>▶ ورود به دانشنامه</span>
+        </a>
+        <a href="react/React_Handbook.pdf" class="btn-pdf-spec" download>
+          <span>PDF 🡇</span>
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <a href="react/index.html#real-project-react" class="btn-pdf-spec" style="color:#38bdf8; border-color:rgba(56,189,248,0.25);" onclick="playAudioClick()">
+          <span>🚀 پروژه خط به خط</span>
+        </a>
+        <a href="react/index.html#exam-react-1" class="btn-pdf-spec" style="color:#c084fc; border-color:rgba(168,85,247,0.25);" onclick="playAudioClick()">
+          <span>🏆 آزمون‌ها (۶ مرحله)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Next.js 15 Specialist -->
+  <article class="module-card" style="border-color:rgba(255,255,255,0.18);">
+    <div class="rim-light"></div>
+    <div>
+      <div class="card-header-top">
+        <span class="module-meta-code">MOD_05 // NEXTJS-FULL</span>
+        <span class="module-units-badge" style="color:#38bdf8;">۲۸ سرفصل مرجع</span>
+      </div>
+      <div class="card-title-row">
+        <div>
+          <h2 class="mod-title">دانشنامه Next.js</h2>
+          <p class="mod-subtitle">App Router, SSR, Server Actions & Edge</p>
+        </div>
+        <div class="mod-icon-box" style="color:#ffffff;">▲</div>
+      </div>
+      <div class="spec-chips">
+        <span class="spec-chip">App Router</span>
+        <span class="spec-chip">Server Components</span>
+        <span class="spec-chip">'use server'</span>
+        <span class="spec-chip">PPR & Streaming</span>
+        <span class="spec-chip">Edge Middleware</span>
+        <span class="spec-chip">Multi-Layer Cache</span>
+      </div>
+    </div>
+    <div>
+      <div class="laser-progress-block">
+        <div class="laser-meta">
+          <span>PROGRESS</span>
+          <span id="laser-txt-nextjs">0 / 28 (0%)</span>
+        </div>
+        <div class="laser-track" id="laser-track-nextjs">
+          <!-- 15 ticks -->
+        </div>
+      </div>
+      <div class="card-actions-row" style="grid-template-columns: 2fr 1fr; margin-bottom: 6px;">
+        <a href="nextjs/index.html" class="btn-launch" style="background:#fff; color:#020617;" onclick="playAudioClick()">
+          <span>▶ ورود به دانشنامه</span>
+        </a>
+        <a href="nextjs/NextJS_Handbook.pdf" class="btn-pdf-spec" download>
+          <span>PDF 🡇</span>
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <a href="nextjs/index.html#real-project-nextjs" class="btn-pdf-spec" style="color:#38bdf8; border-color:rgba(56,189,248,0.25);" onclick="playAudioClick()">
+          <span>🚀 پروژه خط به خط</span>
+        </a>
+        <a href="nextjs/index.html#exam-nextjs-1" class="btn-pdf-spec" style="color:#c084fc; border-color:rgba(168,85,247,0.25);" onclick="playAudioClick()">
+          <span>🏆 آزمون‌ها (۳ مرحله)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+</main>
+
+<!-- Command Palette Modal -->
+<div class="cmd-modal-backdrop" id="cmdModal" onclick="if(event.target===this) closeCmd();">
+  <div class="cmd-box">
+    <input type="text" class="cmd-input" id="cmdInput" placeholder="جستجوی عنوان سرفصل، آزمون یا پروژه (مثال: Flexbox, پروژه, آزمون, useState)..." oninput="runCmdFilter(this.value)">
+    <ul class="cmd-list" id="cmdList">
+      <li style="padding:16px; color:var(--text-mute); font-size:12.5px; text-align:center;">کلمه مورد نظر را بنویسید...</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// Web Audio Tactile Synthesizer
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playAudioClick() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(850, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 0.025);
+  gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.025);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.025);
+}
+
+// Generate laser progress ticks
+const TOTALS = { html: 35, css: 62, javascript: 75, react: 65, nextjs: 28 };
+const TICKS = 15;
+
+for (const [track, total] of Object.entries(TOTALS)) {
+  const container = document.getElementById(`laser-track-${track}`);
+  if (!container) continue;
+  container.innerHTML = '';
+  for (let i = 0; i < TICKS; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'laser-segment';
+    seg.id = `seg-${track}-${i}`;
+    container.appendChild(seg);
+  }
+}
+
+// Read localStorage data and light up active segments
+let totalCompleted = 0;
+const grandTotal = 265;
+
+for (const [track, total] of Object.entries(TOTALS)) {
+  try {
+    const raw = localStorage.getItem(`erfan_${track}_completed`);
+    const data = raw ? JSON.parse(raw) : {};
+    const count = Object.values(data).filter(Boolean).length;
+    totalCompleted += count;
+    const pct = Math.round((count / total) * 100);
+
+    const txt = document.getElementById(`laser-txt-${track}`);
+    if (txt) txt.innerText = `${count} / ${total} (${pct}%)`;
+
+    const activeTicks = Math.round((count / total) * TICKS);
+    for (let i = 0; i < activeTicks; i++) {
+      const seg = document.getElementById(`seg-${track}-${i}`);
+      if (seg) seg.classList.add('active');
+    }
+  } catch(e) {}
+}
+
+document.getElementById('hudCompleted').innerText = totalCompleted;
+const overallPct = ((totalCompleted / grandTotal) * 100).toFixed(1);
+document.getElementById('hudPct').innerText = `${overallPct}٪`;
+
+// Command Palette logic
+function openCmd() {
+  document.getElementById('cmdModal').classList.add('open');
+  const inp = document.getElementById('cmdInput');
+  inp.focus();
+  inp.select();
+}
+function closeCmd() {
+  document.getElementById('cmdModal').classList.remove('open');
+}
+
+window.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    openCmd();
+  }
+  if (e.key === 'Escape') closeCmd();
+});
+
+const QUICK_NODES = [
+  // Real-world Projects
+  { t: '🚀 پروژه کامل و خط به خط: TechNova Enterprise Landing', mod: 'HTML5', url: 'html/index.html#real-project-html' },
+  { t: '🚀 پروژه کامل و خط به خط: Zenith Luxe Design System', mod: 'CSS3', url: 'css/index.html#real-project-css' },
+  { t: '🚀 پروژه کامل و خط به خط: Nexus Real-Time Operations Core', mod: 'JavaScript', url: 'javascript/index.html#real-project-javascript' },
+  { t: '🚀 پروژه کامل و خط به خط: Pulse SprintFlow Kanban Platform', mod: 'React 19', url: 'react/index.html#real-project-react' },
+  { t: '🚀 پروژه کامل و خط به خط: CloudScale Enterprise SaaS', mod: 'Next.js 15', url: 'nextjs/index.html#real-project-nextjs' },
+
+  // Milestone Exams
+  { t: '🏆 آزمون مرحله‌ای ۱: مبانی وب و تگ‌های سمانتیک', mod: 'HTML5', url: 'html/index.html#exam-html-1' },
+  { t: '🏆 آزمون مرحله‌ای ۲: فرم‌ها و اعتبارسنجی مدرن', mod: 'HTML5', url: 'html/index.html#exam-html-2' },
+  { t: '🏆 آزمون مرحله‌ای ۳: مالتی‌مدیا و SVG/Canvas', mod: 'HTML5', url: 'html/index.html#exam-html-3' },
+  { t: '🏆 آزمون مرحله‌ای ۴: سئو پیشرفته و دسترسی‌پذیری', mod: 'HTML5', url: 'html/index.html#exam-html-4' },
+  { t: '🏆 آزمون مرحله‌ای ۱: سلکتورها و Specificity', mod: 'CSS3', url: 'css/index.html#exam-css-1' },
+  { t: '🏆 آزمون مرحله‌ای ۲: Box Model و تایپوگرافی', mod: 'CSS3', url: 'css/index.html#exam-css-2' },
+  { t: '🏆 آزمون مرحله‌ای ۳: چیدمان Flexbox و Position', mod: 'CSS3', url: 'css/index.html#exam-css-3' },
+  { t: '🏆 آزمون مرحله‌ای ۴: CSS Grid و طراحی واکنش‌گرا', mod: 'CSS3', url: 'css/index.html#exam-css-4' },
+  { t: '🏆 آزمون مرحله‌ای ۵: انیمیشن‌های Keyframe و GPU', mod: 'CSS3', url: 'css/index.html#exam-css-5' },
+  { t: '🏆 آزمون مرحله‌ای ۶: متغیرهای CSS و لایه‌های @layer', mod: 'CSS3', url: 'css/index.html#exam-css-6' },
+  { t: '🏆 آزمون مرحله‌ای ۱: انواع داده و موتور V8', mod: 'JavaScript', url: 'javascript/index.html#exam-js-1' },
+  { t: '🏆 آزمون مرحله‌ای ۲: توابع، Scope و Closures', mod: 'JavaScript', url: 'javascript/index.html#exam-js-2' },
+  { t: '🏆 آزمون مرحله‌ای ۳: متدهای نوین آرایه و اشیاء', mod: 'JavaScript', url: 'javascript/index.html#exam-js-3' },
+  { t: '🏆 آزمون مرحله‌ای ۴: تعامل با DOM و Event Delegation', mod: 'JavaScript', url: 'javascript/index.html#exam-js-4' },
+  { t: '🏆 آزمون مرحله‌ای ۵: برنامه‌نویسی ناهمگام و Event Loop', mod: 'JavaScript', url: 'javascript/index.html#exam-js-5' },
+  { t: '🏆 آزمون مرحله‌ای ۶: شی‌گرایی، Prototype و کلاس‌ها', mod: 'JavaScript', url: 'javascript/index.html#exam-js-6' },
+  { t: '🏆 آزمون مرحله‌ای ۷: بهینه‌سازی حافظه و وب‌ورکرها', mod: 'JavaScript', url: 'javascript/index.html#exam-js-7' },
+  { t: '🏆 آزمون مرحله‌ای ۱: کامپوننت‌ها و هوک useState', mod: 'React 19', url: 'react/index.html#exam-react-1' },
+  { t: '🏆 آزمون مرحله‌ای ۲: هوک useEffect و پاک‌سازی', mod: 'React 19', url: 'react/index.html#exam-react-2' },
+  { t: '🏆 آزمون مرحله‌ای ۳: useContext و useReducer', mod: 'React 19', url: 'react/index.html#exam-react-3' },
+  { t: '🏆 آزمون مرحله‌ای ۴: useMemo و useCallback', mod: 'React 19', url: 'react/index.html#exam-react-4' },
+  { t: '🏆 آزمون مرحله‌ای ۵: معماری FSD و پترن‌های کامپوننت', mod: 'React 19', url: 'react/index.html#exam-react-5' },
+  { t: '🏆 آزمون مرحله‌ای ۶: اکشن‌ها و رابط‌های Optimistic', mod: 'React 19', url: 'react/index.html#exam-react-6' },
+  { t: '🏆 آزمون مرحله‌ای ۱: معماری App Router و کامپوننت‌های RSC', mod: 'Next.js 15', url: 'nextjs/index.html#exam-nextjs-1' },
+  { t: '🏆 آزمون مرحله‌ای ۲: رندرینگ SSR, SSG و PPR', mod: 'Next.js 15', url: 'nextjs/index.html#exam-nextjs-2' },
+  { t: '🏆 آزمون مرحله‌ای ۳: سرور اکشن‌ها و سیستم کشینگ', mod: 'Next.js 15', url: 'nextjs/index.html#exam-nextjs-3' },
+
+  // Key Topics
+  { t: 'ساختار پایه سند (DOCTYPE, html, head)', mod: 'HTML5', url: 'html/index.html#topic-1' },
+  { t: 'فرم‌ها و انواع input اعتبارسنجی', mod: 'HTML5', url: 'html/index.html#topic-11' },
+  { t: 'Box Model و box-sizing: border-box', mod: 'CSS3', url: 'css/index.html#topic-8' },
+  { t: 'Flexbox تراز و توزیع فضا', mod: 'CSS3', url: 'css/index.html#topic-26' },
+  { t: 'CSS Grid و grid-template-areas', mod: 'CSS3', url: 'css/index.html#topic-27' },
+  { t: 'Promises و async/await', mod: 'JavaScript', url: 'javascript/index.html#topic-43' },
+  { t: 'Event Loop و Microtask/Macrotask Queue', mod: 'JavaScript', url: 'javascript/index.html#topic-47' },
+  { t: 'هوک useState و استیت پایه', mod: 'React', url: 'react/index.html#topic-10' },
+  { t: 'هوک useEffect و چرخه حیات', mod: 'React', url: 'react/index.html#topic-14' },
+  { t: 'راهنمای معماری و پوشه‌بندی FSD', mod: 'React', url: 'react/index.html#react-fsd-guide' },
+  { t: 'معماری App Router و پوشه‌بندی در Next 15', mod: 'Next.js 15', url: 'nextjs/index.html#topic-1' },
+  { t: 'اکشن‌های سمت سرور Server Actions', mod: 'Next.js 15', url: 'nextjs/index.html#topic-3' },
+  { t: 'Partial Prerendering (PPR) و توربوپک', mod: 'Next.js 15', url: 'nextjs/index.html#topic-5' },
+];
+
+function runCmdFilter(q) {
+  q = q.trim().toLowerCase();
+  const box = document.getElementById('cmdList');
+  if (!q) {
+    box.innerHTML = '<li style="padding:16px; color:var(--text-mute); font-size:12.5px; text-align:center;">کلمه مورد نظر را بنویسید...</li>';
+    return;
+  }
+  const filtered = QUICK_NODES.filter(n => n.t.toLowerCase().includes(q) || n.mod.toLowerCase().includes(q));
+  if (!filtered.length) {
+    box.innerHTML = '<li style="padding:16px; color:var(--text-mute); font-size:12.5px; text-align:center;">موردی یافت نشد.</li>';
+    return;
+  }
+  box.innerHTML = filtered.map(n => `
+    <li>
+      <a href="${n.url}" class="cmd-item" onclick="playAudioClick()">
+        <span class="cmd-item-title">${n.t}</span>
+        <span class="cmd-item-badge">${n.mod}</span>
+      </a>
+    </li>
+  `).join('');
+}
+</script>
+</body>
+</html>

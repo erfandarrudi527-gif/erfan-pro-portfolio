@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>سبد رزرو | هتل ۵ ستاره مهستان</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="../style/style.css"/>
+  <link rel="stylesheet" href="../style/cart.css"/>
+</head>
+<body>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="drawer-overlay"></div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="navbar-brand">
+        <img src="../assets/image/logo-light.svg" alt="هتل مهستان" class="logo-img"/>
+        <div class="brand-text">
+          <h1>هتل مهستان</h1>
+          <span>اقامتگاه ۵ ستاره</span>
+        </div>
+      </div>
+      <button class="close-drawer">&times;</button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="../index.html" class="mobile-nav-link">خانه</a>
+      <a href="Room.html" class="mobile-nav-link">اتاق‌ها و سوئیت‌ها</a>
+      <a href="about.html" class="mobile-nav-link">درباره ما</a>
+      <a href="cart.html" class="mobile-nav-link">سبد رزرو 🛒</a>
+      <a href="login.html" class="mobile-nav-link">ورود / ثبت‌نام</a>
+    </div>
+  </div>
+
+  <!-- Main Header & Navbar -->
+  <header>
+    <nav class="main-navbar">
+      <div class="navbar-brand">
+        <a href="../index.html" style="display: flex; align-items: center; gap: 12px;">
+          <img src="../assets/image/logo-light.svg" alt="لوگو هتل مهستان" class="logo-img"/>
+          <div class="brand-text">
+            <h1>هتل و اقامتگاه مهستان</h1>
+            <span>رزرواسیون آنلاین پنج ستاره</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-links">
+        <a href="../index.html" class="navbar-link">خانه</a>
+        <a href="Room.html" class="navbar-link">اتاق‌ها</a>
+        <a href="about.html" class="navbar-link">درباره ما</a>
+        <a href="cart.html" class="navbar-link active">سبد رزرو</a>
+      </div>
+
+      <div class="navbar-actions">
+        <a href="cart.html" class="btn-icon" title="سبد خرید">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">۰</span>
+        </a>
+        <a href="login.html" class="btn-outline-gold">
+          <i class="fa-regular fa-user"></i>
+          <span>ورود / ثبت‌نام</span>
+        </a>
+        <button class="mobile-toggle" aria-label="منو">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="cart-container">
+    <div class="cart-title-box reveal">
+      <i class="fa-solid fa-receipt" style="font-size: 1.8rem; color: var(--gold-primary);"></i>
+      <h1>سبد رزرو و نهایی‌سازی اقامت</h1>
+    </div>
+
+    <div class="cart-layout">
+      <!-- Left: Cart Items List -->
+      <div class="cart-section">
+        <div id="cartItems" class="cart-items"></div>
+      </div>
+
+      <!-- Right: Summary Card -->
+      <div class="cart-summary reveal delay-1">
+        <h3 style="color: var(--gold-light); font-size: 1.2rem; font-weight: 800;">خلاصه فاکتور رزرو</h3>
+        <div class="summary-row">
+          <span>مجموع هزینه اقامت:</span>
+          <strong id="subtotalPrice">۰ تومان</strong>
+        </div>
+
+        <div style="margin: 10px 0;">
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 6px;">کد تخفیف (کدهای تست: OFF10, GOLD30)</label>
+          <div class="discount-form">
+            <input type="text" id="discountInput" class="discount-input" placeholder="مثلاً GOLD30"/>
+            <button class="btn-outline-gold" onclick="applyDiscountCode()" style="padding: 8px 16px;">اعمال</button>
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <span>مبلغ تخفیف:</span>
+          <strong id="discountAmount" style="color: #10B981;">۰ تومان</strong>
+        </div>
+
+        <div class="summary-row total">
+          <span>مبلغ قابل پرداخت:</span>
+          <strong id="finalPrice">۰ تومان</strong>
+        </div>
+
+        <button class="btn-gold" onclick="checkoutCart()" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px;">
+          <i class="fa-solid fa-lock"></i>
+          <span>تایید و پرداخت آنلاین</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="navbar-brand" style="margin-bottom: 12px;">
+          <img src="../assets/image/logo-light.svg" alt="لوگو هتل" class="logo-img"/>
+          <div class="brand-text">
+            <h1>هتل مهستان</h1>
+            <span>اقامتگاه ۵ ستاره</span>
+          </div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">رزرواسیون آنلاین مطمئن هتل مهستان.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title">ارتباط با ما</h4>
+        <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>۰۵۱-۳۴۵۶۷۸۹۰</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© تمامی حقوق برای هتل ۵ ستاره مهستان محفوظ است.</p>
+    </div>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,565 @@
+/* ==========================================================
+   animations.css — افکت‌ها و انیمیشن‌های سایت مهستان
+   (اسکرول ریویل، هدر چسبان، نوار پیشرفت، آکاردئون و...)
+   ========================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* ---------- نوار پیشرفت اسکرول ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  z-index: 1000;
+  background: transparent;
+  pointer-events: none;
+}
+
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f5a400, #ffd166, #f5a400);
+  background-size: 200% 100%;
+  animation: progressShine 2s linear infinite;
+  border-radius: 0 4px 4px 0;
+  transition: width 80ms linear;
+}
+
+@keyframes progressShine {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+/* ---------- هدر چسبان با شیشه‌ای شدن ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 400ms ease;
+  animation: headerDown 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes headerDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+header.scrolled {
+  padding: 8px 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+header.scrolled .logo img {
+  transform: scale(0.92);
+}
+
+.logo img {
+  transition: transform 400ms ease;
+}
+
+/* ---------- خط متحرک زیر منوها ---------- */
+.navbar-item a {
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 300ms ease;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #f5a400, #ffd166);
+  transition: width 320ms ease;
+}
+
+.navbar-item:hover .nav-underline {
+  width: 80%;
+}
+
+.navbar-item:hover > a,
+.navbar-item:hover > a p {
+  color: #f5a400 !important;
+}
+
+/* ---------- آیکون تماس با انیمیشن زنگ ---------- */
+.call-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5a40015;
+  border: 1px solid #f5a40044;
+  margin-right: 12px;
+  transition: all 300ms ease;
+}
+
+.call-icon:hover {
+  background: #f5a400;
+  transform: scale(1.08);
+}
+
+.call-icon:hover svg path {
+  stroke: #fff;
+}
+
+.call-icon svg {
+  animation: ring 2.4s ease infinite;
+  transform-origin: top center;
+}
+
+@keyframes ring {
+  0%,
+  45%,
+  100% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(14deg);
+  }
+  10% {
+    transform: rotate(-12deg);
+  }
+  15% {
+    transform: rotate(10deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  25% {
+    transform: rotate(4deg);
+  }
+}
+
+.call-number {
+  color: #f5a400;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- نقطه قبل از متن هدر hero ---------- */
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f5a400;
+  flex-shrink: 0;
+  animation: dotPulse 1.8s ease infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 164, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(245, 164, 0, 0);
+  }
+}
+
+/* ---------- تایپ شدن نام هتل ---------- */
+.typing-name {
+  display: inline-block;
+  min-height: 1.2em;
+  border-left: 3px solid #f5a40088;
+  padding-left: 6px;
+  animation: caretBlink 0.9s step-end infinite;
+}
+
+.typing-name.done {
+  border-left-color: transparent;
+  animation: none;
+}
+
+@keyframes caretBlink {
+  50% {
+    border-left-color: transparent;
+  }
+}
+
+/* ---------- شناور شدن تصویر hero ---------- */
+.float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* ---------- درخشش روی دکمه‌ها ---------- */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 80%
+  );
+  transform: skewX(-20deg);
+  animation: shine 3.2s ease infinite;
+}
+
+@keyframes shine {
+  0% {
+    right: -120%;
+  }
+  45%,
+  100% {
+    right: 160%;
+  }
+}
+
+/* ---------- عنوان بخش‌ها با خط طلایی ---------- */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.title-line {
+  display: inline-block;
+  height: 3px;
+  width: 46px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f5a400, #ffd166);
+  animation: lineGlow 2.4s ease infinite;
+}
+
+@keyframes lineGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+    width: 38px;
+  }
+  50% {
+    opacity: 1;
+    width: 54px;
+  }
+}
+
+/* ---------- افکت سه‌بعدی کارت خدمات ---------- */
+.slider-card {
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms ease;
+  will-change: transform;
+}
+
+.slider-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 18px 40px rgba(245, 164, 0, 0.22);
+}
+
+.slider-card:hover img {
+  animation: iconBounce 600ms ease;
+}
+
+@keyframes iconBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-10px);
+  }
+  65% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ---------- آکاردئون سوالات متداول ---------- */
+.questions {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+  height: auto;
+  min-height: 80px;
+  background: #fff;
+  transition: all 300ms ease;
+}
+
+.questions:hover {
+  box-shadow: 0 0 14px 2px rgba(245, 164, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.questions.open {
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 14px 2px rgba(245, 164, 0, 0.45);
+}
+
+.acc-icon {
+  font-size: 26px;
+  font-family: "BONYAD";
+  color: #f5a400;
+  transition: transform 350ms ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.questions.open .acc-icon {
+  transform: rotate(45deg);
+}
+
+.answer {
+  transform-origin: top center;
+}
+
+.answer.show-anim {
+  animation: answerOpen 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.answer.hide-anim {
+  animation: answerClose 320ms ease forwards;
+}
+
+@keyframes answerOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scaleY(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes answerClose {
+  from {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scaleY(0.85);
+  }
+}
+
+/* ---------- کارت اتاق‌ها: شناور و بزرگنمایی ---------- */
+.room-cart {
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms ease;
+}
+
+.room-cart:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+}
+
+.room-cart .room-img {
+  transition: transform 900ms ease;
+  will-change: transform;
+}
+
+.room-cart:hover .room-img {
+  transform: scale(1.08);
+}
+
+/*Wrapper برای برش زوم تصویر */
+.room-img-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.room-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #f5a400, #ffd166);
+  color: #1b1b1b;
+  font-family: "BONYAD";
+  font-size: 14px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  animation: badgePop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes badgePop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* ---------- کارت نظرات ---------- */
+.comment-box {
+  transition: transform 400ms ease, border-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.comment-box:hover {
+  transform: translateY(-8px);
+  border-color: #f5a40088;
+  box-shadow: 0 14px 30px rgba(245, 164, 0, 0.18);
+}
+
+/* ---------- گالری: درخشش سبک ---------- */
+.img-box div {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- اسکرول‌بار سفارشی ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f3f3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#f5a400, #c77f00);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f5a400;
+}
+
+/* ---------- انتخاب متن ---------- */
+::selection {
+  background: #f5a400;
+  color: #fff;
+}
+
+/* ---------- دکمه برو بالا: پرش نرم ---------- */
+#scroll-top-btn svg {
+  transition: transform 300ms ease;
+}
+
+#scroll-top-btn:hover svg {
+  transform: translateY(-4px);
+}
+
+/* ==========================================================
+   سیستم Scroll Reveal (داده‌ی data-aos)
+   ========================================================== */
+[data-aos] {
+  opacity: 0;
+  transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 800ms ease;
+  will-change: opacity, transform;
+}
+
+[data-aos="fade-up"] {
+  transform: translateY(45px);
+}
+
+[data-aos="fade-down"] {
+  transform: translateY(-45px);
+}
+
+[data-aos="fade-right"] {
+  transform: translateX(60px);
+}
+
+[data-aos="fade-left"] {
+  transform: translateX(-60px);
+}
+
+[data-aos="zoom-in"] {
+  transform: scale(0.85);
+  filter: blur(4px);
+}
+
+[data-aos="flip-up"] {
+  transform: perspective(900px) rotateX(22deg) translateY(40px);
+  transform-origin: bottom center;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) rotate(0deg);
+  filter: blur(0);
+}
+
+[data-aos="flip-up"].aos-animate {
+  animation: flipIn 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes flipIn {
+  0% {
+    opacity: 0;
+    transform: perspective(900px) rotateX(22deg) translateY(40px);
+  }
+  60% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(-6deg) translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0deg) translateY(0);
+  }
+}
+
+/* ---------- احترام به تنظیم کاربر برای حذف انیمیشن ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

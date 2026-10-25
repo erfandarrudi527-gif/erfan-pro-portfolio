@@ -1,0 +1,14 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+
+node_modules/
+.next/
+dist/
+.env
+.env.local
+*.zip
+*.rar
+*.exe
