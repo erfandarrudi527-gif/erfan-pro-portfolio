@@ -1,16 +1,19 @@
-// Erfan Portfolio Core Application Logic
+// Erfan Portfolio Core Application Logic (v4.2 Production)
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
+  initCanvasBackground();
   renderProjects('all');
   initFilterTabs();
   initSearch();
+  initComponentSandbox();
   initBrewLab();
   initTerminal();
+  initCommandPalette();
   initSoundToggle();
   initContactModal();
 });
 
-// 1. Live Clock & System Status
+// 1. Live UTC & System Status
 function initLiveClock() {
   const clockEl = document.getElementById('liveClock');
   if (!clockEl) return;
@@ -23,7 +26,81 @@ function initLiveClock() {
   setInterval(update, 1000);
 }
 
-// 2. Sound Toggle
+// 2. Subtle Starfield / Particle Background (Zero-lag Canvas 2D)
+function initCanvasBackground() {
+  const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const particles = [];
+  const count = Math.min(width > 768 ? 60 : 30, 80);
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.5 + 0.2
+    });
+  }
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+
+  let mouseX = -1000, mouseY = -1000;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      // Draw particle
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(165, 180, 252, ${p.alpha})`;
+      ctx.fill();
+
+      // Connect close neighbors
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// 3. Audio Synthesizer Toggle
 function initSoundToggle() {
   const btn = document.getElementById('soundToggleBtn');
   if (!btn) return;
@@ -36,7 +113,7 @@ function initSoundToggle() {
   });
 }
 
-// 3. Render Projects
+// 4. Render Projects
 function renderProjects(category = 'all', searchQuery = '') {
   const grid = document.getElementById('projectsGrid');
   if (!grid) return;
@@ -57,19 +134,19 @@ function renderProjects(category = 'all', searchQuery = '') {
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-dim);">
-        <i class="fa-solid fa-folder-open" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
-        No projects match your filter. Try another keyword.
+        <i class="fa-solid fa-folder-open" style="font-size: 36px; margin-bottom: 12px; display: block; color: var(--accent);"></i>
+        No projects match your filter. Try another keyword or stack.
       </div>
     `;
     return;
   }
 
   grid.innerHTML = filtered.map(p => `
-    <article class="project-card" style="--card-accent: ${p.color};" onmouseenter="Sound.playHover()">
+    <article class="project-card" style="--card-accent: ${p.color};" onmouseenter="if(window.Sound)Sound.playHover()">
       <div>
         <div class="card-top">
-          <span class="card-badge mono">${p.badge}</span>
-          <span class="mono" style="font-size: 11px; color: var(--text-dim);">${p.category.toUpperCase()}</span>
+          <span class="card-badge mono" style="color: ${p.color}; border-color: ${p.color}44;">${p.badge}</span>
+          <span class="mono" style="font-size: 11px; color: var(--text-dim);">${p.category.toUpperCase()} // ${p.year || '2026'}</span>
         </div>
         <h3 class="card-title">${p.title}</h3>
         <p class="card-tagline mono">${p.tagline}</p>
@@ -81,15 +158,15 @@ function renderProjects(category = 'all', searchQuery = '') {
           ${p.stack.map(s => `<span class="stack-tag">${s}</span>`).join('')}
         </div>
         <div class="card-actions">
-          <button class="btn-outline" style="font-size: 12px; padding: 6px 14px;" onclick="openProjectModal('${p.id}'); Sound.playClick();">
-            <i class="fa-solid fa-circle-info"></i> Spec
+          <button class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="openProjectModal('${p.id}'); if(window.Sound)Sound.playClick();">
+            <i class="fa-solid fa-circle-info"></i> Architecture
           </button>
-          ${p.liveUrl && p.liveUrl !== '#' ? `
-            <a href="${p.liveUrl}" target="_blank" class="btn-primary" style="font-size: 12px; padding: 6px 14px;" onclick="Sound.playClick();">
+          ${p.liveUrl && p.liveUrl !== '#' && !p.liveUrl.startsWith('https://github.com') ? `
+            <a href="${p.liveUrl}" ${p.liveUrl.endsWith('.html') ? '' : 'target="_blank"'} class="btn-primary" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
               <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
             </a>
           ` : `
-            <a href="${p.githubUrl}" target="_blank" class="btn-outline" style="font-size: 12px; padding: 6px 14px;" onclick="Sound.playClick();">
+            <a href="${p.githubUrl}" target="_blank" class="btn-outline" style="font-size: 12px; padding: 7px 14px;" onclick="if(window.Sound)Sound.playClick();">
               <i class="fa-brands fa-github"></i> Repository
             </a>
           `}
@@ -99,14 +176,14 @@ function renderProjects(category = 'all', searchQuery = '') {
   `).join('');
 }
 
-// 4. Filter Tabs & Search
+// 5. Filter & Search
 function initFilterTabs() {
   const pills = document.querySelectorAll('.filter-pill');
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
       pills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      Sound.playClick();
+      if (window.Sound) Sound.playClick();
       const cat = pill.getAttribute('data-cat');
       const searchVal = document.getElementById('projectSearchInput')?.value || '';
       renderProjects(cat, searchVal);
@@ -124,11 +201,51 @@ function initSearch() {
   });
 }
 
-// 5. Interactive Brew Lab Engine
+// 6. Interactive Component Sandbox
+function initComponentSandbox() {
+  const presetSelect = document.getElementById('sandboxPreset');
+  const glowSlider = document.getElementById('sandboxGlow');
+  const blurSlider = document.getElementById('sandboxBlur');
+  const radiusSlider = document.getElementById('sandboxRadius');
+  const previewTarget = document.getElementById('sandboxLiveTarget');
+  const codeOutput = document.getElementById('sandboxCodeOutput');
+
+  if (!presetSelect || !previewTarget || !codeOutput) return;
+
+  function update() {
+    const preset = presetSelect.value;
+    const glow = glowSlider ? glowSlider.value : 20;
+    const blur = blurSlider ? blurSlider.value : 12;
+    const radius = radiusSlider ? radiusSlider.value : 10;
+
+    let cssText = '';
+    if (preset === 'button') {
+      previewTarget.innerHTML = `<button style="background: linear-gradient(135deg, #6366f1, #3b82f6); color: #fff; padding: 12px 28px; border-radius: ${radius}px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.6); font-family: var(--font-sans); font-weight: 700; cursor: pointer; backdrop-filter: blur(${blur}px);">Interactive CTA ↗</button>`;
+      cssText = `button {\n  background: linear-gradient(135deg, #6366f1, #3b82f6);\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(99, 102, 241, 0.6);\n  backdrop-filter: blur(${blur}px);\n}`;
+    } else if (preset === 'glass') {
+      previewTarget.innerHTML = `<div style="background: rgba(14, 20, 34, 0.65); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: ${radius}px; padding: 20px 28px; box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.25); backdrop-filter: blur(${blur}px); text-align: center;"><div class="mono" style="font-size: 11px; color: #38bdf8;">OLED GLASSMETRIC</div><div style="font-weight: 800; font-size: 16px; margin-top: 4px;">Dynamic Glass UI</div></div>`;
+      cssText = `.glass-card {\n  background: rgba(14, 20, 34, 0.65);\n  border: 1px solid rgba(99, 102, 241, 0.4);\n  border-radius: ${radius}px;\n  backdrop-filter: blur(${blur}px);\n  box-shadow: 0 0 ${glow}px rgba(6, 182, 212, 0.25);\n}`;
+    } else if (preset === 'badge') {
+      previewTarget.innerHTML = `<span style="background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px 18px; border-radius: ${radius}px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.4);">● SYSTEM HEALTH: 100%</span>`;
+      cssText = `.live-badge {\n  background: rgba(16, 185, 129, 0.12);\n  color: #34d399;\n  border-radius: ${radius}px;\n  box-shadow: 0 0 ${glow}px rgba(16, 185, 129, 0.4);\n}`;
+    }
+    codeOutput.textContent = cssText;
+  }
+
+  presetSelect.addEventListener('change', () => { update(); if (window.Sound) Sound.playClick(); });
+  if (glowSlider) glowSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
+  if (blurSlider) blurSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
+  if (radiusSlider) radiusSlider.addEventListener('input', () => { update(); if (window.Sound) Sound.playHover(); });
+  update();
+}
+
+// 7. DUN Brew Lab Engine & Live Pour Simulation
+let pourTimerInterval = null;
 function initBrewLab() {
   const doseSlider = document.getElementById('brewDose');
   const ratioSlider = document.getElementById('brewRatio');
   const methodSelect = document.getElementById('brewMethod');
+  const startBtn = document.getElementById('startPourBtn');
 
   if (!doseSlider || !ratioSlider || !methodSelect) return;
 
@@ -136,10 +253,7 @@ function initBrewLab() {
     const dose = parseFloat(doseSlider.value);
     const ratio = parseFloat(ratioSlider.value);
     const method = methodSelect.value;
-
     const water = Math.round(dose * ratio);
-    
-    // Pour stage calculation
     const bloom = Math.round(dose * 2.5);
     const firstPour = Math.round((water - bloom) * 0.6);
     const finalPour = water - bloom - firstPour;
@@ -166,13 +280,136 @@ function initBrewLab() {
     document.getElementById('resGrind').textContent = grind;
   };
 
-  doseSlider.addEventListener('input', () => { calculate(); Sound.playHover(); });
-  ratioSlider.addEventListener('input', () => { calculate(); Sound.playHover(); });
-  methodSelect.addEventListener('change', () => { calculate(); Sound.playClick(); });
+  doseSlider.addEventListener('input', () => { calculate(); if(window.Sound) Sound.playHover(); });
+  ratioSlider.addEventListener('input', () => { calculate(); if(window.Sound) Sound.playHover(); });
+  methodSelect.addEventListener('change', () => { calculate(); if(window.Sound) Sound.playClick(); });
+
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (pourTimerInterval) {
+        clearInterval(pourTimerInterval);
+        pourTimerInterval = null;
+        startBtn.innerHTML = `<i class="fa-solid fa-play"></i> Start Extraction Timer`;
+        showToast('Pour timer reset');
+        return;
+      }
+
+      let elapsed = 0;
+      if (window.Sound) Sound.playSuccess();
+      startBtn.innerHTML = `<i class="fa-solid fa-stop"></i> Stop Timer (<span id="pourElapsed">0s</span>)`;
+
+      pourTimerInterval = setInterval(() => {
+        elapsed++;
+        const elSpan = document.getElementById('pourElapsed');
+        if (elSpan) elSpan.textContent = `${elapsed}s`;
+
+        if (elapsed === 45) {
+          if (window.Sound) Sound.playBeep(880, 'sine', 0.2, 0.1);
+          showToast('Bloom Complete (45s)! Begin first main pour.');
+        } else if (elapsed === 120) {
+          if (window.Sound) Sound.playBeep(980, 'sine', 0.2, 0.1);
+          showToast('Stage 2 Complete (2:00)! Begin final pour.');
+        } else if (elapsed >= 180) {
+          clearInterval(pourTimerInterval);
+          pourTimerInterval = null;
+          startBtn.innerHTML = `<i class="fa-solid fa-check"></i> Extraction Finished!`;
+          if (window.Sound) Sound.playSuccess();
+          showToast('Target yield reached. Enjoy your brew!');
+        }
+      }, 1000);
+    });
+  }
+
   calculate();
 }
 
-// 6. Interactive Terminal
+// 8. Command Palette (Cmd+K / Ctrl+K Spotlight)
+function initCommandPalette() {
+  const overlay = document.getElementById('cmdPalette');
+  const input = document.getElementById('cmdInput');
+  const triggerBtn = document.getElementById('cmdTriggerBtn');
+
+  if (!overlay || !input) return;
+
+  function open() {
+    overlay.classList.add('open');
+    input.value = '';
+    filterCommands('');
+    input.focus();
+    if (window.Sound) Sound.playClick();
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    if (window.Sound) Sound.playClick();
+  }
+
+  if (triggerBtn) triggerBtn.addEventListener('click', open);
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (overlay.classList.contains('open')) close();
+      else open();
+    } else if (e.key === 'Escape' && overlay.classList.contains('open')) {
+      close();
+    }
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+
+  input.addEventListener('input', (e) => {
+    filterCommands(e.target.value.toLowerCase().trim());
+  });
+}
+
+function filterCommands(q) {
+  const items = document.querySelectorAll('.cmd-item');
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? 'flex' : 'none';
+  });
+}
+
+function runCmd(action) {
+  const overlay = document.getElementById('cmdPalette');
+  if (overlay) overlay.classList.remove('open');
+
+  switch (action) {
+    case 'projects':
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+      break;
+    case 'brew':
+      document.getElementById('brew-lab-section')?.scrollIntoView({ behavior: 'smooth' });
+      break;
+    case 'terminal':
+      document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' });
+      break;
+    case 'resume':
+      window.location.href = 'resume.html';
+      break;
+    case 'contact':
+      openContactModal();
+      break;
+    case 'sound':
+      const isEnabled = Sound.toggle();
+      showToast(isEnabled ? 'Sound Enabled' : 'Sound Muted');
+      break;
+    case 'github':
+      window.open('https://github.com/erfandarrudi527-gif', '_blank');
+      break;
+    case 'telegram':
+      window.open('https://t.me/erfan_sadeghi', '_blank');
+      break;
+    case 'email':
+      copyText('erfandarrudi527@gmail.com', 'Email copied to clipboard!');
+      break;
+  }
+}
+
+// 9. Interactive Terminal
 function initTerminal() {
   const input = document.getElementById('termInput');
   const output = document.getElementById('termOutput');
@@ -197,7 +434,7 @@ function initTerminal() {
       history.push(cmd);
       historyIdx = history.length;
       input.value = '';
-      Sound.playClick();
+      if (window.Sound) Sound.playClick();
 
       printLine(`<span class="term-prompt">visitor@erfan-os:~$</span> ${cmd}`, true);
       executeCommand(cmd.toLowerCase(), printLine);
@@ -221,19 +458,20 @@ function initTerminal() {
 function executeCommand(cmd, print) {
   switch (cmd) {
     case 'help':
-      print(`Available commands:
-  projects   - List all production projects
-  skills     - View frontend tech stack & tools
-  about      - Display developer biography & philosophy
-  brew       - Jump to interactive DUN Brew Lab
-  contact    - Launch contact desk
-  clear      - Clear terminal screen
-  sudo hire  - Fast-track direct inquiry`);
+      print(`Available system commands:
+  projects   - Output full repository directory
+  skills     - Output frontend competency tree
+  brew       - Jump to DUN Specialty Coffee Lab
+  resume     - View curriculum vitae summary
+  matrix     - Toggle visual matrix rain
+  contact    - Open contact dialog
+  whoami     - Display visitor authorization credentials
+  clear      - Flush terminal history`);
       break;
     case 'projects':
-      print(`Core Projects:
+      print(`Production Repositories:
   - Qreet CMS (Next.js 15, Prisma, PostgreSQL, TipTap) -> Live on Vercel
-  - DUN Coffee & Brew Lab (Extraction engine, Espresso UI #020101)
+  - DUN Coffee Roastery (Extraction engine, Espresso UI #020101)
   - WebDev Master Hub (Interactive multi-track learning suite)
   - Barg Reader (RTL typography engine, PWA, Android APK)
   - Parsa Sports (Reactive athletic e-commerce storefront)
@@ -241,41 +479,41 @@ function executeCommand(cmd, print) {
   - Nova UI (High-density SaaS design system)`);
       break;
     case 'skills':
-      print(`Frontend Pillar:
-  - HTML5 / CSS3 / JavaScript ES6+ / TypeScript
-  - React 19 / Next.js 15 (App Router, Server Actions)
-  - Tailwind CSS / CSS Modules / Custom Properties Architecture
-  - WordPress / Elementor Custom PHP Widgets
-  - RESTful APIs / WebSocket / LocalStorage Persistence
-  - Git / GitHub CI/CD Actions / Vercel Edge Deployments`);
+      print(`Frontend Architecture Stack:
+  - Frameworks: React 19, Next.js 15 (App Router, Server Actions)
+  - Languages: TypeScript, JavaScript (ES6+), HTML5 Semantic
+  - Styles: Tailwind CSS v4, CSS Custom Properties, Bento Grids
+  - CMS: WordPress Themes, Elementor Custom Widgets, Headless CMS
+  - Infrastructure: Git/GitHub CI/CD, Vercel Edge Serverless`);
       break;
-    case 'about':
+    case 'resume':
       print(`Erfan Mehdi Sadeghi — Front-End Developer & UI/UX Architect.
-Specializing in high-performance web applications, strict dark mode architectures,
-interactive math & canvas widgets, and clean typography.`);
+5+ years experience. Specializing in high-performance web applications, strict dark mode architectures, and resilient frontends.`);
+      break;
+    case 'matrix':
+      if (window.Sound) Sound.playSuccess();
+      print(`<span style="color: #10b981;">01000101 01010010 01000110 01000001 01001110 00100000 01001111 01010011</span><br><span style="color: #34d399;">[CONNECTED TO MAINFRAME] Systems nominal.</span>`, true);
+      break;
+    case 'whoami':
+      print(`visitor@guest-session (authenticated via browser WebAPI)`);
       break;
     case 'brew':
       document.getElementById('brew-lab-section')?.scrollIntoView({ behavior: 'smooth' });
-      print(`Scrolling to DUN Brew Lab...`);
+      print(`Jumping to DUN Brew Lab...`);
       break;
     case 'contact':
       openContactModal();
-      print(`Opening contact desk modal...`);
+      print(`Opening contact dialog...`);
       break;
     case 'clear':
       document.getElementById('termOutput').innerHTML = '';
       break;
-    case 'sudo hire':
-    case 'hire':
-      Sound.playSuccess();
-      print(`[SUCCESS] Priority booking requested. Reach out via Telegram @erfan_sadeghi or erfandarrudi527@gmail.com`);
-      break;
     default:
-      print(`Command not recognized: '${cmd}'. Type 'help' for available commands.`);
+      print(`Command not recognized: '${cmd}'. Type 'help' for command manual.`);
   }
 }
 
-// 7. Modals & Spec Viewer
+// 10. Project Modal
 function openProjectModal(id) {
   const p = PROJECTS_DATA.find(x => x.id === id);
   if (!p) return;
@@ -286,13 +524,13 @@ function openProjectModal(id) {
   content.innerHTML = `
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
       <span class="card-badge mono" style="color: ${p.color}; border-color: ${p.color};">${p.badge}</span>
-      <span class="mono" style="font-size: 12px; color: var(--text-dim);">${p.category.toUpperCase()}</span>
+      <span class="mono" style="font-size: 12px; color: var(--text-dim);">${p.category.toUpperCase()} // ${p.year || '2026'}</span>
     </div>
     <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">${p.title}</h2>
     <p class="mono" style="color: #a5b4fc; font-size: 13px; margin-bottom: 20px;">${p.tagline}</p>
     
-    <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
-      <h4 class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">Architecture & Execution</h4>
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 18px; margin-bottom: 20px;">
+      <h4 class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">Technical Architecture</h4>
       <p style="font-size: 13px; color: var(--text-main); line-height: 1.6; margin-bottom: 14px;">${p.description}</p>
       <ul style="list-style: none; padding: 0;">
         ${p.highlights.map(h => `<li style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;"><i class="fa-solid fa-check" style="color: #10b981; margin-right: 8px;"></i>${h}</li>`).join('')}
@@ -301,20 +539,20 @@ function openProjectModal(id) {
 
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;">
       ${p.metrics.map(m => `
-        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 10px; border-radius: 6px; text-align: center;">
+        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 10px; border-radius: 8px; text-align: center;">
           <div class="mono" style="font-size: 11px; color: var(--text-dim);">${m.label}</div>
-          <div class="mono" style="font-size: 12px; font-weight: 700; color: #f1f5f9; margin-top: 4px;">${m.value}</div>
+          <div class="mono" style="font-size: 12.5px; font-weight: 700; color: #f1f5f9; margin-top: 4px;">${m.value}</div>
         </div>
       `).join('')}
     </div>
 
     <div style="display: flex; gap: 12px; justify-content: flex-end;">
-      ${p.liveUrl && p.liveUrl !== '#' ? `
-        <a href="${p.liveUrl}" target="_blank" class="btn-primary" onclick="Sound.playClick();">
+      ${p.liveUrl && p.liveUrl !== '#' && !p.liveUrl.startsWith('https://github.com') ? `
+        <a href="${p.liveUrl}" ${p.liveUrl.endsWith('.html') ? '' : 'target="_blank"'} class="btn-primary" onclick="if(window.Sound)Sound.playClick();">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Deployment
         </a>
       ` : ''}
-      <a href="${p.githubUrl}" target="_blank" class="btn-outline" onclick="Sound.playClick();">
+      <a href="${p.githubUrl}" target="_blank" class="btn-outline" onclick="if(window.Sound)Sound.playClick();">
         <i class="fa-brands fa-github"></i> Source Repository
       </a>
     </div>
@@ -325,9 +563,10 @@ function openProjectModal(id) {
 
 function closeProjectModal() {
   document.getElementById('projectModalOverlay')?.classList.remove('open');
-  Sound.playClick();
+  if (window.Sound) Sound.playClick();
 }
 
+// 11. Contact Modal
 function initContactModal() {
   const overlay = document.getElementById('contactModalOverlay');
   const btn = document.getElementById('openContactBtn');
@@ -338,18 +577,18 @@ function initContactModal() {
 
 function openContactModal() {
   document.getElementById('contactModalOverlay')?.classList.add('open');
-  Sound.playClick();
+  if (window.Sound) Sound.playClick();
 }
 
 function closeContactModal() {
   document.getElementById('contactModalOverlay')?.classList.remove('open');
-  Sound.playClick();
+  if (window.Sound) Sound.playClick();
 }
 
-// 8. Clipboard & Toast
+// 12. Utilities
 function copyText(text, label = 'Copied to clipboard') {
   navigator.clipboard.writeText(text).then(() => {
-    Sound.playSuccess();
+    if (window.Sound) Sound.playSuccess();
     showToast(label);
   });
 }
@@ -364,7 +603,5 @@ function showToast(msg) {
   }
   toast.textContent = msg;
   toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 2400);
+  setTimeout(() => toast.classList.remove('show'), 2500);
 }
