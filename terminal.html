@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ERFAN.OS Terminal — Fullscreen Developer Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #04060a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .fullscreen-term {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin: 20px auto;
+      max-width: 1100px;
+      width: 100%;
+      height: calc(100vh - 120px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
+        <div class="brand-icon">E</div>
+        <div>
+          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">ERFAN.OS</div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">SHELL v3.8</div>
+        </div>
+      </a>
+
+      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Home</a>
+        <a href="projects.html" style="color: var(--text-muted); text-decoration: none;">Projects</a>
+        <a href="brew-lab.html" style="color: var(--text-muted); text-decoration: none;">DUN Brew Lab</a>
+        <a href="resume.html" style="color: var(--text-muted); text-decoration: none;">Resume</a>
+      </div>
+
+      <div class="status-pill mono">
+        <span class="status-dot"></span>
+        <span>TTY1 ACTIVE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fullscreen Terminal Container -->
+  <main class="container fullscreen-term">
+    <div class="terminal-card" style="height: 100%; display: flex; flex-direction: column; margin-bottom: 0;">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="tdot tdot-red"></span>
+          <span class="tdot tdot-yellow"></span>
+          <span class="tdot tdot-green"></span>
+        </div>
+        <div class="mono" style="font-size: 12px; color: var(--text-dim);">erfan@devbox:~ (zsh) — 80x24</div>
+        <div class="mono" style="font-size: 11px; color: var(--emerald);">CONNECTED [127.0.0.1]</div>
+      </div>
+
+      <div class="terminal-body" id="termOutput" style="flex: 1; max-height: none;">
+        <div class="term-line" style="color: #6366f1;">
+          ╔══════════════════════════════════════════════════════════════════════════════╗<br>
+          ║  ERFAN MEHDI SADEGHI — INTERACTIVE DEVELOPER OS (v3.8 LTS)                   ║<br>
+          ║  Type 'help' to view all commands. Tab completion and history enabled.       ║<br>
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+        </div>
+        <div class="term-line" style="color: var(--text-muted);">
+          System load: 0.12, 0.08, 0.02 | Memory: 16GB OK | Vercel Edge: ACTIVE
+        </div>
+        <div class="term-line" style="color: var(--text-dim); margin-top: 8px;">
+          Quick shortcuts: <span style="color: #38bdf8;">'projects'</span>, <span style="color: #38bdf8;">'skills'</span>, <span style="color: #38bdf8;">'contact'</span>, <span style="color: #38bdf8;">'brew'</span>, <span style="color: #38bdf8;">'matrix'</span>, <span style="color: #38bdf8;">'clear'</span>
+        </div>
+      </div>
+
+      <div class="terminal-header" style="border-top: 1px solid var(--border-subtle); border-bottom: none; background: #07090f; padding: 14px 20px;">
+        <div class="terminal-input-row" style="margin-top: 0; width: 100%;">
+          <span class="term-prompt mono" style="font-size: 14px;">visitor@erfan-os:~$</span>
+          <input type="text" id="termInput" class="term-input" style="font-size: 14px;" placeholder="type command here..." autofocus autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="projects.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

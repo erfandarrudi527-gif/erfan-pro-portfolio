@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Curriculum Vitae — Erfan Mehdi Sadeghi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .resume-sheet {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 48px;
+      max-width: 880px;
+      margin: 0 auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .resume-section {
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 28px;
+    }
+    .resume-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .navbar, .print-hide { display: none !important; }
+      .resume-sheet { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar print-hide">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
+        <div class="brand-icon">E</div>
+        <div>
+          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">ERFAN.DEV</div>
+          <div class="mono" style="font-size: 11px; color: var(--text-dim);">CV // RESUME</div>
+        </div>
+      </a>
+
+      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Home</a>
+        <a href="projects.html" style="color: var(--text-muted); text-decoration: none;">Projects</a>
+        <a href="brew-lab.html" style="color: var(--text-muted); text-decoration: none;">DUN Brew Lab</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn-primary" onclick="window.print(); Sound.playClick();">
+          <i class="fa-solid fa-print"></i> Print / PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 50px 24px 100px;">
+    
+    <div class="resume-sheet">
+      <!-- Header -->
+      <div class="resume-section" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <h1 style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em;">Erfan Mehdi Sadeghi</h1>
+          <p class="mono" style="color: var(--accent); font-size: 15px; font-weight: 600; margin-top: 4px;">
+            Front-End Developer & UI/UX Architect
+          </p>
+          <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px; max-width: 520px;">
+            Specializing in Next.js 15, React 19, Tailwind CSS, TypeScript, and high-performance Web Applications. Strict dark mode and resilient systems engineering.
+          </p>
+        </div>
+
+        <div class="mono" style="font-size: 12px; color: var(--text-dim); display: flex; flex-direction: column; gap: 6px;">
+          <div><i class="fa-regular fa-envelope" style="width: 18px; color: var(--accent);"></i> erfandarrudi527@gmail.com</div>
+          <div><i class="fa-brands fa-github" style="width: 18px; color: #fff;"></i> github.com/erfandarrudi527-gif</div>
+          <div><i class="fa-brands fa-telegram" style="width: 18px; color: #38bdf8;"></i> @erfan_sadeghi</div>
+          <div><i class="fa-solid fa-globe" style="width: 18px; color: #10b981;"></i> erfan-pro-portfolio.vercel.app</div>
+        </div>
+      </div>
+
+      <!-- Core Skills -->
+      <div class="resume-section">
+        <h3 class="mono" style="font-size: 13px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;">
+          Technical Proficiency
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 4px;">Frontend Engineering</div>
+            <div style="font-size: 12px; color: var(--text-muted);">React 19, Next.js 15, TypeScript, JavaScript (ES6+), HTML5, Semantic DOM</div>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 4px;">Styling & Design Systems</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Tailwind CSS v4, CSS Custom Properties, Bento Grids, Responsive Architecture</div>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 4px;">CMS & Backend</div>
+            <div style="font-size: 12px; color: var(--text-muted);">WordPress Custom Widgets, Elementor PHP, Prisma ORM, PostgreSQL, TipTap</div>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 4px;">DevOps & Mobile</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Git/GitHub CI/CD, Vercel Edge, PWA Service Workers, Android APK Toolchains</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Projects -->
+      <div class="resume-section">
+        <h3 class="mono" style="font-size: 13px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;">
+          Key Production Projects
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <h4 style="font-size: 16px; font-weight: 700;">Qreet CMS & Digital Engine</h4>
+              <span class="mono" style="font-size: 11px; color: var(--emerald);">LIVE ON VERCEL</span>
+            </div>
+            <div class="mono" style="font-size: 12px; color: #a5b4fc; margin-bottom: 6px;">Next.js 15, Prisma ORM, PostgreSQL, TipTap, NextAuth</div>
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Engineered a full-stack Headless CMS with custom block-based editor, granular role-based authorization, JWT security, and zero-downtime Vercel deployments.
+            </p>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <h4 style="font-size: 16px; font-weight: 700;">DUN Specialty Coffee Roastery & Brew Lab</h4>
+              <span class="mono" style="font-size: 11px; color: var(--amber);">INTERACTIVE WEB APP</span>
+            </div>
+            <div class="mono" style="font-size: 12px; color: #a5b4fc; margin-bottom: 6px;">JavaScript, Web Audio API, Canvas, CSS Custom Properties</div>
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Artisan pitch espresso platform (#020101) with interactive brew ratio calculators, real-time extraction curves, and acoustic feedback synthesis.
+            </p>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <h4 style="font-size: 16px; font-weight: 700;">WebDev Master Learning Hub</h4>
+              <span class="mono" style="font-size: 11px; color: var(--cyan);">EDUCATIONAL PLATFORM</span>
+            </div>
+            <div class="mono" style="font-size: 12px; color: #a5b4fc; margin-bottom: 6px;">JavaScript, Prism.js, In-Browser Sandboxes, Markdown</div>
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Architected a 5-track interactive web portal with in-browser execution sandboxes, interactive syntax testing, and self-contained coding modules.
+            </p>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <h4 style="font-size: 16px; font-weight: 700;">Barg Reader Engine & Mobile APK</h4>
+              <span class="mono" style="font-size: 11px; color: #818cf8;">PWA & ANDROID PIPELINE</span>
+            </div>
+            <div class="mono" style="font-size: 12px; color: #a5b4fc; margin-bottom: 6px;">PWA, IndexedDB, Web Workers, Android Toolchain, Vazirmatn</div>
+            <p style="font-size: 13px; color: var(--text-muted);">
+              High-precision RTL typography rendering engine with offline book storage, customizable reader modes, and automated GitHub Actions APK builds.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education & Ethics -->
+      <div class="resume-section">
+        <h3 class="mono" style="font-size: 13px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;">
+          Engineering Philosophy
+        </h3>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+          Focus on lightweight bundles, strict dark mode ergonomics, accessible semantic structure, and zero unnecessary runtime dependencies. Committed to crafting dependable digital artifacts with instant interactivity.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="audio.js"></script>
+</body>
+</html>

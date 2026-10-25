@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DUN Coffee Roastery & Brew Lab — Interactive Extraction Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background-color: #020101;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.15) 0%, transparent 60%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    }
+    .pour-progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: #1c100a;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .pour-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d97706, #f59e0b);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar" style="background: rgba(2, 1, 1, 0.9);">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-badge" onmouseenter="Sound.playHover()">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #d97706, #78350f);">D</div>
+        <div>
+          <div style="font-weight: 700; font-size: 14px; letter-spacing: -0.01em;">DUN.STUDIO</div>
+          <div class="mono" style="font-size: 11px; color: #d97706;">BREW LAB v2.4</div>
+        </div>
+      </a>
+
+      <div class="nav-links mono" style="display: flex; gap: 24px; font-size: 13px;">
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Return to Portfolio</a>
+        <a href="projects.html" style="color: var(--text-muted); text-decoration: none;">All Projects</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="https://github.com/erfandarrudi527-gif/dun-coffee-roastery" target="_blank" class="btn-outline mono" style="font-size: 12px;">
+          <i class="fa-brands fa-github"></i> Repository
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 60px 24px 100px;">
+    
+    <div class="section-header" style="text-align: center; max-width: 720px; margin: 0 auto 50px;">
+      <span class="section-tag mono" style="color: #d97706;">// ARTISAN COFFEE ENGINEERING</span>
+      <h1 class="section-title" style="font-size: clamp(32px, 5vw, 48px);">Bespoke Pour-Over Yield & Extraction Lab</h1>
+      <p style="color: var(--text-muted); font-size: 15px; margin-top: 14px;">
+        Engineered with a pitch espresso aesthetic (<span class="mono" style="color: #f59e0b;">#020101</span>). Calibrate extraction ratios, bloom timing, and TDS yield curves in real-time.
+      </p>
+    </div>
+
+    <!-- The Master Lab Card -->
+    <div class="lab-card" style="max-width: 960px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #332219; padding-bottom: 20px; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <i class="fa-solid fa-mug-hot" style="font-size: 24px; color: #d97706;"></i>
+          <div>
+            <h3 style="font-size: 18px; font-weight: 700; color: #fff;">DUN Extraction Engine</h3>
+            <span class="mono" style="font-size: 11px; color: #a8a29e;">DYNAMIC RECIPE CALIBRATOR</span>
+          </div>
+        </div>
+        <span class="status-pill mono" style="background: rgba(217, 119, 6, 0.1); border-color: rgba(217, 119, 6, 0.3); color: #f59e0b;">
+          ACTIVE PROFILE: SPECIALTY V60
+        </span>
+      </div>
+
+      <div class="lab-grid">
+        <!-- Controls Column -->
+        <div>
+          <div class="lab-control-group">
+            <label>
+              <span>BREWING METHOD</span>
+              <span id="methodTag" style="color: #d97706;">POUR-OVER</span>
+            </label>
+            <select id="brewMethodPage" style="width: 100%; background: #120b08; color: #f59e0b; border: 1px solid #332219; padding: 12px; border-radius: 8px; font-family: var(--font-mono); outline: none;">
+              <option value="v60">Hario V60 (Ceramic Dripper)</option>
+              <option value="chemex">Chemex (Thick Fiber Filter)</option>
+              <option value="aeropress">AeroPress (Inverted Technique)</option>
+              <option value="frenchpress">French Press (Full Immersion)</option>
+            </select>
+          </div>
+
+          <div class="lab-control-group">
+            <label>
+              <span>COFFEE DOSE (DRY GROUNDS)</span>
+              <span id="doseVal" style="color: #fff; font-size: 15px;">20g</span>
+            </label>
+            <input type="range" id="doseSliderPage" min="12" max="40" value="20" step="1" class="lab-slider">
+          </div>
+
+          <div class="lab-control-group">
+            <label>
+              <span>BREW RATIO</span>
+              <span id="ratioVal" style="color: #fff; font-size: 15px;">1:16</span>
+            </label>
+            <input type="range" id="ratioSliderPage" min="13" max="18" value="16" step="0.5" class="lab-slider">
+          </div>
+
+          <div class="lab-control-group">
+            <label>
+              <span>WATER TEMPERATURE</span>
+              <span id="tempVal" style="color: #fff; font-size: 15px;">93°C (200°F)</span>
+            </label>
+            <input type="range" id="tempSliderPage" min="88" max="98" value="93" step="1" class="lab-slider">
+          </div>
+        </div>
+
+        <!-- Real-time Specs Column -->
+        <div class="lab-results" style="background: #090503; border-color: #3b2214;">
+          <div class="lab-result-row">
+            <span class="mono" style="font-size: 13px; color: #a8a29e;">Total Water Target:</span>
+            <span id="targetWater" class="lab-result-val" style="font-size: 24px; color: #f59e0b;">320 ml</span>
+          </div>
+
+          <div style="padding: 12px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+              <span>Bloom Stage (45s):</span>
+              <span id="bloomStage" style="color: #f59e0b; font-weight: 700;">50 ml</span>
+            </div>
+            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 15%;"></div></div>
+          </div>
+
+          <div style="padding: 12px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+              <span>First Main Pour (1:15):</span>
+              <span id="pourOne" style="color: #f59e0b; font-weight: 700;">160 ml</span>
+            </div>
+            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 65%;"></div></div>
+          </div>
+
+          <div style="padding: 12px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a8a29e;" class="mono">
+              <span>Final Pour (2:30):</span>
+              <span id="pourTwo" style="color: #f59e0b; font-weight: 700;">110 ml</span>
+            </div>
+            <div class="pour-progress-bar"><div class="pour-progress-fill" style="width: 100%;"></div></div>
+          </div>
+
+          <div class="lab-result-row" style="margin-top: 8px;">
+            <span class="mono" style="font-size: 12px; color: #a8a29e;">Burr Particle Calibration:</span>
+            <span id="grindMicron" class="mono" style="font-size: 13px; color: #fff;">Medium-Fine (600 µm)</span>
+          </div>
+
+          <div class="lab-result-row" style="border-bottom: none;">
+            <span class="mono" style="font-size: 12px; color: #a8a29e;">Target Total Contact Time:</span>
+            <span id="contactTime" class="lab-result-val">2:45 - 3:15</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #332219; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <span class="mono" style="font-size: 12px; color: #78716c;">
+          <i class="fa-solid fa-code-branch" style="color: #d97706; margin-right: 6px;"></i>
+          Extracted via Golden Cup standard TDS 1.25% - 1.45%
+        </span>
+        <button class="btn-primary" style="background: #d97706; border-color: #f59e0b;" onclick="Sound.playSuccess(); showToast('Brew Recipe Logged to Local Storage');">
+          <i class="fa-solid fa-bookmark"></i> Save Calibration Preset
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="audio.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const methodEl = document.getElementById('brewMethodPage');
+      const doseEl = document.getElementById('doseSliderPage');
+      const ratioEl = document.getElementById('ratioSliderPage');
+      const tempEl = document.getElementById('tempSliderPage');
+
+      function update() {
+        const dose = parseFloat(doseEl.value);
+        const ratio = parseFloat(ratioEl.value);
+        const temp = tempEl.value;
+        const method = methodEl.value;
+
+        const totalWater = Math.round(dose * ratio);
+        const bloom = Math.round(dose * 2.5);
+        const pour1 = Math.round((totalWater - bloom) * 0.6);
+        const pour2 = totalWater - bloom - pour1;
+
+        let grind = "Medium-Fine (600 µm)";
+        let time = "2:45 - 3:15";
+        let methodLabel = "POUR-OVER";
+
+        if (method === 'chemex') {
+          grind = "Medium-Coarse (800 µm)";
+          time = "3:45 - 4:30";
+          methodLabel = "CHEMEX POUR";
+        } else if (method === 'aeropress') {
+          grind = "Fine-Medium (450 µm)";
+          time = "1:45 - 2:00";
+          methodLabel = "PRESSURE EXTRACTION";
+        } else if (method === 'frenchpress') {
+          grind = "Coarse (1000 µm)";
+          time = "4:00 - 5:00";
+          methodLabel = "FULL IMMERSION";
+        }
+
+        document.getElementById('doseVal').textContent = dose + 'g';
+        document.getElementById('ratioVal').textContent = '1:' + ratio;
+        document.getElementById('tempVal').textContent = temp + '°C (' + Math.round(temp * 1.8 + 32) + '°F)';
+        document.getElementById('targetWater').textContent = totalWater + ' ml';
+        document.getElementById('bloomStage').textContent = bloom + ' ml';
+        document.getElementById('pourOne').textContent = pour1 + ' ml';
+        document.getElementById('pourTwo').textContent = pour2 + ' ml';
+        document.getElementById('grindMicron').textContent = grind;
+        document.getElementById('contactTime').textContent = time;
+        document.getElementById('methodTag').textContent = methodLabel;
+      }
+
+      doseEl.addEventListener('input', () => { update(); Sound.playHover(); });
+      ratioEl.addEventListener('input', () => { update(); Sound.playHover(); });
+      tempEl.addEventListener('input', () => { update(); Sound.playHover(); });
+      methodEl.addEventListener('change', () => { update(); Sound.playClick(); });
+      update();
+    });
+
+    function showToast(msg) {
+      let toast = document.getElementById('toastMsg');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toastMsg';
+        toast.className = 'toast-msg mono';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+  </script>
+</body>
+</html>

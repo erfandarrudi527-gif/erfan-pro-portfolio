@@ -39,7 +39,7 @@ const PROJECTS_DATA = [
       { label: "Interactive", value: "Real-Time Brew Lab" },
       { label: "Latency", value: "< 1ms Response" }
     ],
-    liveUrl: "#brew-lab-section",
+    liveUrl: "brew-lab.html",
     githubUrl: "https://github.com/erfandarrudi527-gif/dun-coffee-roastery",
     badge: "INTERACTIVE LAB",
     color: "#D97706",
