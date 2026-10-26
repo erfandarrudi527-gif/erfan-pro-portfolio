@@ -94,14 +94,25 @@ body {
 /* Continuous Scroll Reveal Animations */
 .reveal-item {
   opacity: 0;
-  transform: translateY(32px) scale(0.98);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
 .reveal-item.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+/* Stagger delay classes for smoother entry */
+.reveal-item:nth-child(2) { transition-delay: 0.1s; }
+.reveal-item:nth-child(3) { transition-delay: 0.18s; }
+.reveal-item:nth-child(4) { transition-delay: 0.26s; }
+
+/* Micro Card Floating Hover */
+@keyframes cardFloatHover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* NAVBAR */
@@ -371,18 +382,9 @@ header.navbar {
   margin-bottom: 22px;
 }
 
-/* Cursor Glow Follower - Liquid Light Caustic */
+/* Cursor Glow Follower removed per user request */
 #cursorGlow {
-  position: fixed;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 174, 239, 0.2) 0%, rgba(224, 59, 139, 0.12) 35%, rgba(232, 99, 38, 0.06) 60%, transparent 75%);
-  pointer-events: none;
-  z-index: 0;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, opacity 0.3s;
-  will-change: left, top;
+  display: none !important;
 }
 
 /* Floating Badges & Animated Keyframes */
@@ -811,6 +813,111 @@ header.navbar {
   font-size: 19px;
   font-weight: 700;
   color: #f59e0b;
+}
+
+/* REAL-TIME ARCHITECTURE TELEMETRY DASHBOARD */
+.telemetry-card {
+  background: linear-gradient(145deg, rgba(22, 25, 34, 0.95) 0%, rgba(14, 17, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 90px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+}
+
+.telemetry-header {
+  background: rgba(14, 17, 26, 0.9);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.benchmark-btn {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #00aeef, #0284c7);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 20px rgba(0, 174, 239, 0.4);
+}
+
+.benchmark-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 30px rgba(0, 174, 239, 0.7);
+}
+
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.telemetry-box {
+  background: rgba(10, 13, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px 20px;
+  transition: all 0.25s ease;
+}
+
+.telemetry-box:hover {
+  border-color: rgba(0, 174, 239, 0.4);
+  background: rgba(16, 20, 30, 0.9);
+  transform: translateY(-2px);
+}
+
+.telemetry-box-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.telemetry-box-val {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.telemetry-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.telemetry-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.telemetry-footer {
+  padding: 14px 24px;
+  background: rgba(6, 8, 14, 0.95);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* INTERACTIVE TERMINAL */

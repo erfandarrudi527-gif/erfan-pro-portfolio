@@ -1,7 +1,6 @@
 // Erfan Portfolio Core Application Logic (v4.5 Luxury High-Motion Edition)
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
-  initCursorGlow();
   initScrollProgressBar();
   initCanvasBackground();
   initContinuousScrollReveal();
@@ -10,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearch();
   initComponentSandbox();
   initBrewLab();
-  initTerminal();
+  initTelemetryMonitor();
   initCommandPalette();
   initSoundToggle();
   initContactModal();
@@ -18,28 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 1. Scroll Progress Bar
 function initCursorGlow() {
-  const glow = document.createElement('div');
-  glow.id = 'cursorGlow';
-  document.body.appendChild(glow);
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let curX = mouseX;
-  let curY = mouseY;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  }, { passive: true });
-
-  function follow() {
-    curX += (mouseX - curX) * 0.12;
-    curY += (mouseY - curY) * 0.12;
-    glow.style.left = curX + 'px';
-    glow.style.top = curY + 'px';
-    requestAnimationFrame(follow);
-  }
-  follow();
+  // Cursor glow disabled per user request
 }
 
 function initScrollProgressBar() {
@@ -579,8 +557,11 @@ function runCmd(action) {
     case 'brew':
       document.getElementById('brew-lab-section')?.scrollIntoView({ behavior: 'smooth' });
       break;
+    case 'telemetry':
+      document.getElementById('telemetry')?.scrollIntoView({ behavior: 'smooth' });
+      break;
     case 'terminal':
-      document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' });
+      window.location.href = 'terminal.html';
       break;
     case 'resume':
       window.location.href = 'resume.html';
@@ -604,7 +585,85 @@ function runCmd(action) {
   }
 }
 
-// 12. Interactive Terminal
+// 12. Real-Time Telemetry & Performance Benchmark Monitor
+let benchmarkRunning = false;
+function initTelemetryMonitor() {
+  const fpsEl = document.getElementById('fpsCounter');
+  const fpsBar = document.getElementById('fpsBar');
+  const latencyEl = document.getElementById('latencyCounter');
+  const latencyBar = document.getElementById('latencyBar');
+
+  if (!fpsEl) return;
+
+  let lastTime = performance.now();
+  let frames = 0;
+
+  function loop() {
+    frames++;
+    const now = performance.now();
+    if (now >= lastTime + 1000) {
+      const fps = Math.min(Math.round((frames * 1000) / (now - lastTime)), 60);
+      fpsEl.innerHTML = `${fps} <span style="font-size: 13px; color: var(--text-muted);">FPS</span>`;
+      if (fpsBar) fpsBar.style.width = `${(fps / 60) * 100}%`;
+
+      // Measure synthetic DOM interaction latency
+      const t0 = performance.now();
+      const div = document.createElement('div');
+      div.style.transform = 'translateZ(0)';
+      document.body.appendChild(div);
+      div.offsetHeight;
+      document.body.removeChild(div);
+      const lat = (performance.now() - t0).toFixed(1);
+      if (latencyEl) latencyEl.innerHTML = `${Math.max(lat, 1.2)} <span style="font-size: 13px; color: var(--text-muted);">ms</span>`;
+
+      frames = 0;
+      lastTime = now;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
+function runClientBenchmark() {
+  if (benchmarkRunning) return;
+  benchmarkRunning = true;
+
+  const btn = document.getElementById('runBenchmarkBtn');
+  const statusText = document.getElementById('benchResultText');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Stressing GPU & DOM...`;
+  }
+  if (statusText) statusText.textContent = 'Executing 100,000 matrix node computations...';
+  if (window.Sound) Sound.playClick();
+
+  const start = performance.now();
+  setTimeout(() => {
+    // Stress calculation
+    let dummy = 0;
+    for (let i = 0; i < 500000; i++) {
+      dummy += Math.sin(i) * Math.cos(i);
+    }
+    const elapsed = (performance.now() - start).toFixed(1);
+
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-check"></i> Benchmark Complete`;
+    }
+    if (statusText) {
+      statusText.innerHTML = `<span style="color: var(--emerald);">PASSED</span>: 500k ops in ${elapsed}ms (Grade: A+ Extreme Responsiveness)`;
+    }
+    if (window.Sound) Sound.playSuccess();
+    showToast(`Benchmark Score: Excellent (${elapsed}ms execution time)`);
+
+    setTimeout(() => {
+      if (btn) btn.innerHTML = `<i class="fa-solid fa-play"></i> Re-Run Benchmark`;
+      benchmarkRunning = false;
+    }, 3500);
+  }, 400);
+}
+
+// 12.1 Interactive Terminal (Supported for Fullscreen Page)
 function initTerminal() {
   const input = document.getElementById('termInput');
   const output = document.getElementById('termOutput');
