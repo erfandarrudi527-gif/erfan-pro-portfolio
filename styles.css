@@ -1,22 +1,32 @@
-/* ERFAN.DEV LUXURY DARK DESIGN SYSTEM — HIGH MOTION EDITION */
+/* ERFAN.DEV LUXURY LIQUID GLASS DESIGN SYSTEM */
 :root {
-  --bg-base: #03060b;
-  --bg-surface: #070b14;
-  --bg-card: #0b1120;
-  --bg-card-hover: #111a30;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(99, 102, 241, 0.55);
-  --accent: #6366f1;
-  --accent-glow: rgba(99, 102, 241, 0.35);
-  --cyan: #06b6d4;
-  --cyan-glow: rgba(6, 182, 212, 0.35);
-  --amber: #f59e0b;
+  --bg-base: #0c0e14;
+  --bg-surface: #141721;
+  --bg-card: #161922;
+  --bg-card-hover: #1c202d;
+  
+  /* Liquid Glass Specular Borders */
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-active: rgba(0, 174, 239, 0.7);
+  --border-specular: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.25) 100%);
+  
+  /* Optical Caustic & Glow Palette (From Liquid Glass UI Kit) */
+  --accent: #00aeef;
+  --accent-glow: rgba(0, 174, 239, 0.45);
+  --cyan: #00aeef;
+  --cyan-glow: rgba(0, 174, 239, 0.45);
+  --magenta: #e03b8b;
+  --magenta-glow: rgba(224, 59, 139, 0.45);
+  --amber: #e86326;
+  --amber-glow: rgba(232, 99, 38, 0.4);
   --emerald: #10b981;
-  --rose: #f43f5e;
-  --purple: #a855f7;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --purple: #7c3aed;
+  --purple-glow: rgba(124, 58, 237, 0.45);
+  
+  /* Text */
+  --text-main: #ffffff;
+  --text-muted: #b0b3bc;
+  --text-dim: #717582;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -49,9 +59,9 @@ body {
   left: 0;
   height: 3px;
   width: 0%;
-  background: linear-gradient(90deg, #6366f1, #06b6d4, #a855f7);
+  background: linear-gradient(90deg, #00aeef, #e03b8b, #e86326);
   z-index: 100;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 14px rgba(0, 174, 239, 0.9);
   transition: width 0.1s ease-out;
 }
 
@@ -126,15 +136,16 @@ header.navbar {
 .brand-icon {
   width: 38px;
   height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00aeef 0%, #7c3aed 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 15px;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 24px rgba(0, 174, 239, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.5);
   animation: floatBrand 4s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 @keyframes floatBrand {
@@ -259,10 +270,49 @@ header.navbar {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(145deg, #1d212c 0%, #161922 100%);
   color: #ffffff;
-  padding: 9px 20px;
-  border-radius: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px; /* Pill shape matching liquid glass kit */
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.7), 
+              0 0 25px rgba(0, 174, 239, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  border-radius: 9999px 9999px 0 0;
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(0, 174, 239, 0.75);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.8), 
+              0 0 35px rgba(0, 174, 239, 0.65),
+              inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.btn-outline {
+  background: linear-gradient(145deg, rgba(26, 29, 39, 0.8) 0%, rgba(18, 21, 28, 0.85) 100%);
+  color: var(--text-main);
+  padding: 10px 22px;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -270,30 +320,17 @@ header.navbar {
   align-items: center;
   gap: 8px;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   cursor: pointer;
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 35px rgba(99, 102, 241, 0.6);
-}
-
-.btn-outline {
-  background: var(--bg-card);
-  color: var(--text-main);
-  padding: 9px 20px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--border-subtle);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
+.btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: linear-gradient(145deg, rgba(32, 36, 48, 0.95) 0%, rgba(22, 26, 35, 0.95) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 20px rgba(224, 59, 139, 0.25);
 }
 
 .btn-outline:hover {
@@ -334,13 +371,13 @@ header.navbar {
   margin-bottom: 22px;
 }
 
-/* Cursor Glow Follower */
+/* Cursor Glow Follower - Liquid Light Caustic */
 #cursorGlow {
   position: fixed;
-  width: 480px;
-  height: 480px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(6, 182, 212, 0.08) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 174, 239, 0.2) 0%, rgba(224, 59, 139, 0.12) 35%, rgba(232, 99, 38, 0.06) 60%, transparent 75%);
   pointer-events: none;
   z-index: 0;
   transform: translate(-50%, -50%);
@@ -521,7 +558,7 @@ header.navbar {
   width: 100%;
 }
 
-/* 3D TILT PROJECTS BENTO GRID */
+/* 3D TILT PROJECTS BENTO GRID - LIQUID GLASS EDITION */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
@@ -531,37 +568,56 @@ header.navbar {
 }
 
 .project-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 18px;
-  padding: 26px;
+  background: linear-gradient(145deg, rgba(22, 25, 34, 0.9) 0%, rgba(18, 21, 29, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 22px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease-out, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transition: transform 0.22s ease-out, border-color 0.3s ease, box-shadow 0.35s ease, background 0.3s ease;
   transform-style: preserve-3d;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
-/* Mouse radial glow on cards */
+/* Liquid Glass Caustic Dispersion & Ambient Highlights */
 .project-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), var(--card-accent, rgba(99, 102, 241, 0.15)), transparent 80%);
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), var(--card-accent, rgba(0, 174, 239, 0.22)), transparent 75%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
   pointer-events: none;
 }
 
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), var(--card-accent, rgba(0, 174, 239, 0.8)), rgba(255, 255, 255, 0.55), transparent);
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+
 .project-card:hover {
-  border-color: var(--border-active);
-  background: var(--bg-card);
-  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px -5px var(--card-accent, rgba(99, 102, 241, 0.2));
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.85), 
+              0 0 35px -5px var(--card-accent, rgba(0, 174, 239, 0.35)),
+              inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .project-card:hover::before { opacity: 1; }
+.project-card:hover::after { opacity: 1; }
 
 .card-top {
   display: flex;

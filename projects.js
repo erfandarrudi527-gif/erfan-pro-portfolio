@@ -18,7 +18,8 @@ const PROJECTS_DATA = [
     liveUrl: "https://qreet-cms.vercel.app",
     githubUrl: "https://github.com/erfandarrudi527-gif/qreet-cms",
     badge: "LIVE ON VERCEL",
-    color: "#6366F1",
+    color: "#00AEEF",
+    caustic: "rgba(0, 174, 239, 0.4)",
     highlights: [
       "Dynamic schema modeling and custom fields",
       "TipTap block-based WYSIWYG editor with image uploader",
@@ -44,7 +45,8 @@ const PROJECTS_DATA = [
     liveUrl: "brew-lab.html",
     githubUrl: "https://github.com/erfandarrudi527-gif/dun-coffee-roastery",
     badge: "LIVE DEMO",
-    color: "#D97706",
+    color: "#E86326",
+    caustic: "rgba(232, 99, 38, 0.4)",
     highlights: [
       "Bespoke extraction math engine (TDS, Brew Ratio, Pour Splits)",
       "Multi-method presets: V60, Chemex, Aeropress, French Press",
@@ -70,7 +72,8 @@ const PROJECTS_DATA = [
     liveUrl: "demos/webdev-learning-hub/index.html",
     githubUrl: "https://github.com/erfandarrudi527-gif/webdev-master-learning-hub",
     badge: "LIVE DEMO",
-    color: "#10B981",
+    color: "#22C55E",
+    caustic: "rgba(34, 197, 94, 0.4)",
     highlights: [
       "In-browser interactive sandboxes for real-time preview",
       "Categorized lesson suites from fundamentals to architecture",
@@ -122,7 +125,8 @@ const PROJECTS_DATA = [
     liveUrl: "demos/parsa-sports/index.html",
     githubUrl: "https://github.com/erfandarrudi527-gif/parsa-sports-store",
     badge: "LIVE DEMO",
-    color: "#EC4899",
+    color: "#E03B8B",
+    caustic: "rgba(224, 59, 139, 0.4)",
     highlights: [
       "Reactive shopping cart drawer with instant quantity calculations",
       "Dynamic filtering by sport category, brand, and price bracket",
@@ -148,7 +152,8 @@ const PROJECTS_DATA = [
     liveUrl: "demos/habit-tracker/index.html",
     githubUrl: "https://github.com/erfandarrudi527-gif/habit-tracker-pwa",
     badge: "LIVE DEMO",
-    color: "#8B5CF6",
+    color: "#7C3AED",
+    caustic: "rgba(124, 58, 237, 0.4)",
     highlights: [
       "Annual heatmap calendar matrix visualizing streaks",
       "Offline-first PWA with install prompt banner",

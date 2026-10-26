@@ -321,34 +321,52 @@
   <script src="audio.js"></script>
   <script src="app.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const scope = params.get('scope');
+      const price = params.get('price');
+      const timeline = params.get('timeline');
+      if (scope || price) {
+        const msgBox = document.getElementById('userMessage');
+        if (msgBox) {
+          msgBox.value = `درخواست برآورد اولیه از پورتفولیو:\n• رده پروژه: ${scope || 'مشخص نشده'}\n• برآورد بودجه: ${price || 'مشخص نشده'}\n• زمان‌بندی: ${timeline || 'استاندارد'}\n\nتوضیحات تکمیلی: `;
+        }
+      }
+    });
+
     function handleContactSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
-      const name = document.getElementById('userName').value;
-      const email = document.getElementById('userEmail').value;
+      const name = document.getElementById('userName').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
       const scope = document.getElementById('projectType').value;
       const budget = document.getElementById('projectBudget').value;
-      const message = document.getElementById('userMessage').value;
+      const message = document.getElementById('userMessage').value.trim();
 
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Dispatching...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> در حال پردازش...`;
       if (window.Sound) Sound.playClick();
 
+      // Forward directly to Telegram messaging endpoint
+      const textSummary = `سلام عرفان عزیز، درخواست جدید از پورتفولیو:\n\n👤 نام: ${name}\n📧 ایمیل: ${email}\n🎯 نوع پروژه: ${scope}\n💰 بودجه: ${budget}\n📝 توضیحات: ${message}`;
+      const tgUrl = `https://t.me/erfan_sadeghi?text=${encodeURIComponent(textSummary)}`;
+
       setTimeout(() => {
-        btn.innerHTML = `<i class="fa-solid fa-check"></i> Inquiry Received!`;
+        btn.innerHTML = `<i class="fa-solid fa-check"></i> پیام ثبت شد! انتقال به تلگرام...`;
         btn.style.background = '#10b981';
         btn.style.borderColor = '#10b981';
         if (window.Sound) Sound.playSuccess();
-        showToast('Thank you ' + name + '! Your message has been dispatched successfully.');
-        document.getElementById('contactForm').reset();
+        showToast('درخواست شما ثبت شد! در حال هدایت به چت مستقیم...');
 
         setTimeout(() => {
+          window.open(tgUrl, '_blank');
           btn.disabled = false;
-          btn.innerHTML = `<i class="fa-regular fa-paper-plane"></i> Send Another Inquiry`;
+          btn.innerHTML = `<i class="fa-regular fa-paper-plane"></i> ارسال درخواست دیگر`;
           btn.style.background = '';
           btn.style.borderColor = '';
-        }, 3500);
-      }, 900);
+          document.getElementById('contactForm').reset();
+        }, 1200);
+      }, 700);
     }
   </script>
 </body>

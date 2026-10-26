@@ -120,9 +120,10 @@ function initCanvasBackground() {
       if (p.y < 0) p.y = height;
       if (p.y > height) p.y = 0;
 
+      // Draw particle in liquid optic glow
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(165, 180, 252, ${p.alpha})`;
+      ctx.fillStyle = `rgba(0, 174, 239, ${p.alpha * 0.75})`;
       ctx.fill();
 
       for (let j = i + 1; j < particles.length; j++) {
@@ -130,11 +131,11 @@ function initCanvasBackground() {
         const dx = p.x - p2.x;
         const dy = p.y - p2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 115) {
+        if (dist < 120) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.16 * (1 - dist / 115)})`;
+          ctx.strokeStyle = `rgba(0, 174, 239, ${0.16 * (1 - dist / 120)})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }
@@ -398,6 +399,14 @@ function initProjectEstimator() {
   });
 
   update();
+}
+
+function forwardEstimatorToContact() {
+  const scope = document.getElementById('estScopeLabel')?.textContent || 'FULLSTACK';
+  const price = document.getElementById('estFinalPrice')?.textContent || '';
+  const days = document.getElementById('estTimelineDays')?.textContent || '';
+  const query = `?scope=${encodeURIComponent(scope)}&price=${encodeURIComponent(price)}&timeline=${encodeURIComponent(days)}`;
+  window.location.href = 'contact.html' + query;
 }
 
 // 10. DUN Brew Lab Engine & Live Pour Simulation
